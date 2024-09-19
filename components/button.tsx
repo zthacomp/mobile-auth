@@ -4,7 +4,7 @@ interface ButtonProps {
   text: string;
   color: string;
 }
-
+// Commit teste pc
 export const ButtonComponent: React.FC<ButtonProps> = ({ text, color }) => {
   return (
     <TouchableOpacity style={[styles.button, { backgroundColor: color }]}>
