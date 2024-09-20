@@ -4,7 +4,7 @@ interface ButtonProps {
   text: string;
   color: string;
 }
-// Commit teste pc
+
 export const ButtonComponent: React.FC<ButtonProps> = ({ text, color }) => {
   return (
     <TouchableOpacity style={[styles.button, { backgroundColor: color }]}>
@@ -16,10 +16,11 @@ export const ButtonComponent: React.FC<ButtonProps> = ({ text, color }) => {
 const styles = StyleSheet.create({
   button: {
     width: 300,
-    height: 45,
+    height: 50,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
+    margin: 6,
   },
 
   text: {},
