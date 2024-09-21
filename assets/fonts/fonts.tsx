@@ -1,3 +1,5 @@
+// FontContext.tsx
+import React, { createContext, useContext } from "react";
 import {
   useFonts,
   Inter_100Thin,
@@ -11,8 +13,14 @@ import {
   Inter_900Black,
 } from "@expo-google-fonts/inter";
 
-export default () => {
-  let [fontsLoaded] = useFonts({
+const FontContext = createContext<boolean | undefined>(undefined);
+
+interface FontProviderProps {
+  children: React.ReactNode;
+}
+
+export const FontProvider: React.FC<FontProviderProps> = ({ children }) => {
+  const [fontsLoaded] = useFonts({
     Inter_100Thin,
     Inter_200ExtraLight,
     Inter_300Light,
@@ -23,4 +31,16 @@ export default () => {
     Inter_800ExtraBold,
     Inter_900Black,
   });
+
+  return (
+    <FontContext.Provider value={fontsLoaded}>{children}</FontContext.Provider>
+  );
+};
+
+export const useFontsLoaded = () => {
+  const context = useContext(FontContext);
+  if (context === undefined) {
+    throw new Error("useFontsLoaded must be used within a FontProvider");
+  }
+  return context;
 };

@@ -1,5 +1,5 @@
 import { Redirect } from "expo-router";
 
 export default function TabLayout() {
-  return <Redirect href={"./login"} />;
+  return <Redirect href={"./screens/login"} />;
 }

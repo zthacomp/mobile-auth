@@ -1,15 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const config = () => {
+const services = () => {
   return (
     <View style={styles.container}>
-      <Text>config</Text>
+      <Text>Servicos</Text>
     </View>
   );
 };
 
-export default config;
+export default services;
 
 const styles = StyleSheet.create({
   container: {

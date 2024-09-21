@@ -12,12 +12,12 @@ export default home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.ZINC950,
     alignItems: "center",
     justifyContent: "center",
   },
 
   Text: {
-    color: Colors.loginText,
+    color: Colors.ZINC900,
   },
 });

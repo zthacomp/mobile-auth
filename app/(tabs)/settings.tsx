@@ -1,15 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const outro = () => {
+const settings = () => {
   return (
     <View style={styles.container}>
-      <Text>outro</Text>
+      <Text>configuracaos</Text>
     </View>
   );
 };
 
-export default outro;
+export default settings;
 
 const styles = StyleSheet.create({
   container: {

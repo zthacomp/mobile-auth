@@ -1,27 +1,52 @@
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
-
+import { Pressable, StyleSheet, Text } from "react-native";
+import { useFontsLoaded } from "@/assets/fonts/fonts";
+import { View } from "lucide-react-native";
+import { Href, Link } from "expo-router";
 interface ButtonProps {
   text: string;
   color: string;
+  link: Href;
 }
 
-export const ButtonComponent: React.FC<ButtonProps> = ({ text, color }) => {
+export const ButtonComponent: React.FC<ButtonProps> = ({
+  text,
+  color,
+  link,
+}) => {
+  const fontsLoaded = useFontsLoaded();
+
+  if (!fontsLoaded) {
+    return (
+      <View>
+        <Text>Loading fonts...</Text>
+      </View>
+    );
+  }
+
   return (
-    <TouchableOpacity style={[styles.button, { backgroundColor: color }]}>
-      <Text style={styles.text}>{text}</Text>
-    </TouchableOpacity>
+    <Link
+      replace
+      href={link}
+      style={[styles.button, { backgroundColor: color }]}
+      asChild
+    >
+      <Pressable>
+        <Text style={styles.text}>{text}</Text>
+      </Pressable>
+    </Link>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
     width: 300,
-    height: 50,
+    height: 45,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    margin: 6,
+    margin: 5,
   },
-
-  text: {},
+  text: {
+    fontFamily: "Inter_600SemiBold",
+  },
 });
