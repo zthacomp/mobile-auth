@@ -23,7 +23,7 @@ const email = () => {
           image={<AtSign color={Colors.ZINC200} size="20" strokeWidth={1} />}
           isPassword={false}
           height={50}
-          width={300}
+          width={335}
         />
         <Text style={styles.subTitle2}>
           Será eviado um e-mail para verificação.

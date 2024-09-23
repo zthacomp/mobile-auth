@@ -29,7 +29,7 @@ const password = () => {
           image={<Lock color={Colors.ZINC200} size="20" strokeWidth={1} />}
           isPassword={true}
           height={50}
-          width={300}
+          width={335}
         />
         <InputComponent
           value=""
@@ -37,7 +37,7 @@ const password = () => {
           image={<Lock color={Colors.ZINC200} size="20" strokeWidth={1} />}
           isPassword={true}
           height={50}
-          width={300}
+          width={335}
         />
       </View>
 

@@ -8,15 +8,7 @@ import { Link } from "expo-router";
 import { useFontsLoaded } from "@/assets/fonts/fonts";
 
 const login = () => {
-  const fontsLoaded = useFontsLoaded();
-
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Loading fonts...</Text>
-      </View>
-    );
-  }
+  useFontsLoaded();
 
   return (
     <View style={styles.container}>
@@ -30,7 +22,7 @@ const login = () => {
         image={<Captions color={Colors.ZINC200} size="20" strokeWidth={1} />}
         isPassword={false}
         height={50}
-        width={300}
+        width={335}
       />
       <InputComponent
         value=""
@@ -38,7 +30,7 @@ const login = () => {
         image={<Lock color={Colors.ZINC200} size="20" strokeWidth={1} />}
         isPassword={true}
         height={50}
-        width={300}
+        width={335}
       />
       <ButtonComponent
         text="ACESSAR"
@@ -67,7 +59,7 @@ const styles = StyleSheet.create({
   text: {
     color: Colors.ZINC500,
     margin: 15,
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Inter_700Bold",
   },
   image: {
     marginBottom: 20,

@@ -1,6 +1,5 @@
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useFontsLoaded } from "@/assets/fonts/fonts";
-import { View } from "lucide-react-native";
 import { Href, Link } from "expo-router";
 interface ButtonProps {
   text: string;
@@ -22,7 +21,6 @@ export const ButtonComponent: React.FC<ButtonProps> = ({
       </View>
     );
   }
-
   return (
     <Link
       replace
@@ -39,7 +37,7 @@ export const ButtonComponent: React.FC<ButtonProps> = ({
 
 const styles = StyleSheet.create({
   button: {
-    width: 300,
+    width: 335,
     height: 45,
     borderRadius: 10,
     justifyContent: "center",

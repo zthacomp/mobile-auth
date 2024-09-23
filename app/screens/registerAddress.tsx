@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { ButtonComponent } from "@/components/button";
 import { Colors } from "@/constants/Colors";
@@ -8,7 +8,7 @@ import { AlignLeft } from "lucide-react-native";
 const registerAddress = () => {
   return (
     <View style={styles.container}>
-      <View>
+      <ScrollView>
         <View style={styles.text}>
           <Text style={styles.title}>Pessoa física</Text>
           <Text style={styles.subTitle}>
@@ -78,7 +78,7 @@ const registerAddress = () => {
           height={150}
           width={300}
         />
-      </View>
+      </ScrollView>
       <View style={styles.button}>
         <ButtonComponent
           text="CONTINUAR"

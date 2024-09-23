@@ -22,7 +22,7 @@ const register = () => {
           image={<User color={Colors.ZINC200} size="20" strokeWidth={1} />}
           isPassword={false}
           height={50}
-          width={300}
+          width={335}
         />
         <InputComponent
           value=""
@@ -30,7 +30,7 @@ const register = () => {
           image={<Captions color={Colors.ZINC200} size="20" strokeWidth={1} />}
           isPassword={false}
           height={50}
-          width={300}
+          width={335}
         />
         <InputComponent
           value=""
@@ -38,7 +38,7 @@ const register = () => {
           image={<Captions color={Colors.ZINC200} size="20" strokeWidth={1} />}
           isPassword={false}
           height={50}
-          width={300}
+          width={335}
         />
         <InputComponent
           value=""
@@ -46,7 +46,7 @@ const register = () => {
           image={<Calendar color={Colors.ZINC200} size="20" strokeWidth={1} />}
           isPassword={false}
           height={50}
-          width={300}
+          width={335}
         />
         <InputComponent
           value=""
@@ -54,7 +54,7 @@ const register = () => {
           image={<Phone color={Colors.ZINC200} size="20" strokeWidth={1} />}
           isPassword={false}
           height={50}
-          width={300}
+          width={335}
         />
       </View>
 

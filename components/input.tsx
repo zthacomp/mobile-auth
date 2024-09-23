@@ -1,5 +1,7 @@
+import { useFontsLoaded } from "@/assets/fonts/fonts";
 import { Colors } from "@/constants/Colors";
-import { StyleSheet, TextInput, View } from "react-native";
+import { useState } from "react";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 
 interface InputProps {
   value: string;
@@ -18,14 +20,31 @@ export const InputComponent: React.FC<InputProps> = ({
   height,
   width,
 }) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const fontsLoaded = useFontsLoaded();
+
+  if (!fontsLoaded) {
+    return (
+      <View>
+        <Text>Loading fonts...</Text>
+      </View>
+    );
+  }
   return (
-    <View style={[styles.container, { height }]}>
+    <View
+      style={[
+        styles.container,
+        { height, borderColor: isFocused ? Colors.MAIN : "transparent" },
+      ]}
+    >
       {image && <View style={styles.imageContainer}>{image}</View>}
       <TextInput
-        style={[styles.textInput, { height, width }]}
+        style={[styles.textInput, { height: height - 2, width }]}
         placeholder={place}
         placeholderTextColor={Colors.ZINC400}
         secureTextEntry={isPassword}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
       />
     </View>
   );
@@ -35,6 +54,8 @@ const styles = StyleSheet.create({
   container: {
     position: "relative",
     margin: 5,
+    borderWidth: 1,
+    borderRadius: 10,
   },
   imageContainer: {
     position: "absolute",
@@ -44,10 +65,11 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: "100%",
+
     borderRadius: 10,
     backgroundColor: Colors.ZINC900,
     paddingLeft: 49,
-    color: "white",
+    color: Colors.WHITE,
     fontFamily: "Inter_500Medium",
   },
 });
