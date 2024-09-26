@@ -30,6 +30,7 @@ export const InputComponent: React.FC<InputProps> = ({
       </View>
     );
   }
+
   return (
     <View
       style={[
@@ -65,7 +66,6 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: "100%",
-
     borderRadius: 10,
     backgroundColor: Colors.ZINC900,
     paddingLeft: 49,
