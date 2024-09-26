@@ -93,6 +93,30 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="services/authentication"
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: () => null,
+          tabBarButton: () => null,
+        }}
+      />
+      <Tabs.Screen
+        name="services/qrCode"
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: () => null,
+          tabBarButton: () => null,
+        }}
+      />
+      <Tabs.Screen
+        name="services/devices"
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: () => null,
+          tabBarButton: () => null,
+        }}
+      />
     </Tabs>
   );
 }

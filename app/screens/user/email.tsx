@@ -4,8 +4,19 @@ import { ButtonComponent } from "@/components/button";
 import { Colors } from "@/constants/Colors";
 import { InputComponent } from "@/components/input";
 import { AtSign } from "lucide-react-native";
+import { useFontsLoaded } from "@/assets/fonts/fonts";
 
 const email = () => {
+  const fontsLoaded = useFontsLoaded();
+
+  if (!fontsLoaded) {
+    return (
+      <View>
+        <Text>Loading fonts...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View>
@@ -52,14 +63,16 @@ const styles = StyleSheet.create({
   },
   text: { paddingLeft: 10, paddingTop: 50, paddingBottom: 20 },
   button: { paddingBottom: 30 },
-  title: { fontSize: 25, color: Colors.ZINC200 },
+  title: { fontSize: 25, color: Colors.ZINC200, fontFamily: "Inter_700Bold" },
   subTitle: {
-    fontSize: 13,
+    fontSize: 12,
     color: Colors.ZINC400,
+    fontFamily: "Inter_700Bold",
   },
   subTitle2: {
     fontSize: 13,
     color: Colors.ZINC500,
     paddingLeft: 10,
+    fontFamily: "Inter_400Regular",
   },
 });

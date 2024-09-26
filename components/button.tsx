@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useFontsLoaded } from "@/assets/fonts/fonts";
 import { Href, Link } from "expo-router";
+
 interface ButtonProps {
   text: string;
   color: string;

@@ -43,7 +43,7 @@ const login = () => {
       <ButtonComponent
         text="ACESSAR"
         color={Colors.MAIN}
-        link={"../(tabs)/home"}
+        link={"../../(tabs)/home"}
       />
       <Text style={styles.text}>
         Não tem uma conta?{" "}

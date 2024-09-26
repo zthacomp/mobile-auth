@@ -4,8 +4,19 @@ import { ButtonComponent } from "@/components/button";
 import { Colors } from "@/constants/Colors";
 import { InputComponent } from "@/components/input";
 import { Lock } from "lucide-react-native";
+import { useFontsLoaded } from "@/assets/fonts/fonts";
 
 const password = () => {
+  const fontsLoaded = useFontsLoaded();
+
+  if (!fontsLoaded) {
+    return (
+      <View>
+        <Text>Loading fonts...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View>
@@ -15,11 +26,14 @@ const password = () => {
             Para garantir a segurança dos seus dados, :
           </Text>
           <Text style={styles.subTitle}>sua senha deve ter</Text>
-          <Text style={styles.subTitle}> Mínimo de 8 caracteres;</Text>
-          <Text style={styles.subTitle}> Pelo menos uma letra maiúscula.</Text>
+          <Text style={styles.subTitle}> • Mínimo de 8 caracteres;</Text>
           <Text style={styles.subTitle}>
             {" "}
-            Pelo menos um caractere especial (como !, @, #,
+            • Pelo menos uma letra maiúscula.
+          </Text>
+          <Text style={styles.subTitle}>
+            {" "}
+            • Pelo menos um caractere especial (como !, @, #,
           </Text>
           <Text style={styles.subTitle}> $, etc.).</Text>
         </View>
@@ -45,7 +59,7 @@ const password = () => {
         <ButtonComponent
           text="CONTINUAR"
           color={Colors.MAIN}
-          link="../(tabs)/home"
+          link="../../(tabs)/home"
         />
       </View>
     </View>
@@ -66,10 +80,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     color: Colors.ZINC200,
+    fontFamily: "Inter_700Bold",
   },
   subTitle: {
-    fontSize: 13,
+    fontSize: 12,
     color: Colors.ZINC400,
+    fontFamily: "Inter_700Bold",
   },
   subTitle2: {
     fontSize: 13,

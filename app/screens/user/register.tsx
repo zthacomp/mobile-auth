@@ -4,8 +4,19 @@ import { ButtonComponent } from "@/components/button";
 import { Colors } from "@/constants/Colors";
 import { InputComponent } from "@/components/input";
 import { Calendar, Captions, Phone, User } from "lucide-react-native";
+import { useFontsLoaded } from "@/assets/fonts/fonts";
 
 const register = () => {
+  const fontsLoaded = useFontsLoaded();
+
+  if (!fontsLoaded) {
+    return (
+      <View>
+        <Text>Loading fonts...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View>
@@ -83,8 +94,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     color: Colors.ZINC200,
+    fontFamily: "Inter_700Bold",
   },
   subTitle: {
+    fontFamily: "Inter_700Bold",
     fontSize: 13,
     color: Colors.ZINC400,
   },

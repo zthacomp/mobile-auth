@@ -12,6 +12,7 @@ export const UserComponent = () => {
       </View>
     );
   }
+
   return (
     <View style={styles.header}>
       <View>
