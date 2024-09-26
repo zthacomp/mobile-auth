@@ -14,23 +14,20 @@ const qrCode = () => {
       </View>
     );
   }
+
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <UserComponent />
-        <View style={styles.innerContainer}>
-          <Text style={styles.text}>
-            Escaneie o QR code para acessar a sua conta em um dos nossos
-            sistemas
-          </Text>
-          <Link href="./devices">
-            <Image source={require("@/assets/images/QrCode.png")} />
-          </Link>
-          <Text style={styles.text}>
-            Certifique-se de que a permissão para acessar a câmera está
-            habilitada
-          </Text>
-        </View>
+      </View>
+      <View style={styles.innerContainer}>
+        <Text style={styles.text}>
+          Escaneie o QR code para acessar a sua conta em um dos nossos sistemas
+        </Text>
+        <Image source={require("@/assets/images/QrCode.png")} />
+        <Text style={styles.text}>
+          Certifique-se de que a permissão para acessar a câmera está habilitada
+        </Text>
       </View>
     </View>
   );
@@ -43,11 +40,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.ZINC950,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   topContainer: {
     alignItems: "center",
     justifyContent: "flex-start",
+    marginBottom: "20%",
   },
   innerContainer: {
     alignItems: "center",
@@ -58,7 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginVertical: 10,
     fontFamily: "Inter_400Regular",
-    marginHorizontal: "5%",
+    marginHorizontal: "10%",
     textAlign: "center",
   },
 });

@@ -25,14 +25,13 @@ const registerAddress = () => {
             Preencha suas informações pessoais.
           </Text>
         </View>
-
         <InputComponent
           value=""
           place="Rua"
           image={<AlignLeft color={Colors.ZINC200} size="20" strokeWidth={1} />}
           isPassword={false}
           height={50}
-          width={300}
+          width={335}
         />
         <InputComponent
           value=""
@@ -40,7 +39,7 @@ const registerAddress = () => {
           image={<AlignLeft color={Colors.ZINC200} size="20" strokeWidth={1} />}
           isPassword={false}
           height={50}
-          width={300}
+          width={335}
         />
         <InputComponent
           value=""
@@ -48,7 +47,7 @@ const registerAddress = () => {
           image={<AlignLeft color={Colors.ZINC200} size="20" strokeWidth={1} />}
           isPassword={false}
           height={50}
-          width={300}
+          width={335}
         />
         <InputComponent
           value=""
@@ -56,7 +55,7 @@ const registerAddress = () => {
           image={<AlignLeft color={Colors.ZINC200} size="20" strokeWidth={1} />}
           isPassword={false}
           height={50}
-          width={300}
+          width={335}
         />
         <View style={styles.addressInfo}>
           <InputComponent
@@ -67,7 +66,7 @@ const registerAddress = () => {
             }
             isPassword={false}
             height={50}
-            width={180}
+            width={210}
           />
           <InputComponent
             value=""
@@ -86,7 +85,7 @@ const registerAddress = () => {
           image={<AlignLeft color={Colors.ZINC200} size="20" strokeWidth={1} />}
           isPassword={false}
           height={150}
-          width={300}
+          width={335}
         />
       </ScrollView>
       <View style={styles.button}>

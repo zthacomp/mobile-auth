@@ -117,6 +117,30 @@ export default function TabLayout() {
           tabBarButton: () => null,
         }}
       />
+      <Tabs.Screen
+        name="profile/account"
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: () => null,
+          tabBarButton: () => null,
+        }}
+      />
+      <Tabs.Screen
+        name="profile/address"
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: () => null,
+          tabBarButton: () => null,
+        }}
+      />
+      <Tabs.Screen
+        name="profile/privacy"
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: () => null,
+          tabBarButton: () => null,
+        }}
+      />
     </Tabs>
   );
 }

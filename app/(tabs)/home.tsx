@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   inputBox: {
     backgroundColor: Colors.ZINC900,
     borderRadius: 10,
-    width: 335,
+    width: "90%",
     height: 50,
     flexDirection: "row",
     justifyContent: "space-between",

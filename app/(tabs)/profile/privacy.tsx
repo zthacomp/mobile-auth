@@ -1,29 +1,30 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { ButtonComponent } from "@/components/button";
-import { Colors } from "@/constants/Colors";
-import { InputComponent } from "@/components/input";
-import { Lock } from "lucide-react-native";
 import { useFontsLoaded } from "@/assets/fonts/fonts";
+import { BackButtonComponent } from "@/components/backButton";
+import { ButtonComponent } from "@/components/button";
+import { InputComponent } from "@/components/input";
+import { Colors } from "@/constants/Colors";
+import { Lock } from "lucide-react-native";
 
-const password = () => {
+import { StyleSheet, Text, View } from "react-native";
+
+const Privacy = () => {
   const fontsLoaded = useFontsLoaded();
 
   if (!fontsLoaded) {
     return (
-      <View>
-        <Text>Loading fonts...</Text>
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>Loading fonts...</Text>
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <View>
+      <BackButtonComponent text="Privacidade" link="../profile" />
+      <View style={styles.content}>
         <View style={styles.text}>
-          <Text style={styles.title}>Insira uma senha</Text>
           <Text style={styles.subTitle}>
-            Para garantir a segurança dos seus dados,{"\n"} sua senha deve ter:
+            Para garantir a segurança dos seus dados, sua senha deve ter:
           </Text>
           <Text style={styles.subTitle}> • Mínimo de 8 caracteres;</Text>
           <Text style={styles.subTitle}>
@@ -32,9 +33,8 @@ const password = () => {
           </Text>
           <Text style={styles.subTitle}>
             {" "}
-            • Pelo menos um caractere especial (como !, @, #,
+            • Pelo menos um caractere especial (como !, @, #, $, etc.).
           </Text>
-          <Text style={styles.subTitle}> $, etc.).</Text>
         </View>
         <InputComponent
           value=""
@@ -52,38 +52,47 @@ const password = () => {
           height={50}
           width={335}
         />
-      </View>
-
-      <View style={styles.button}>
-        <ButtonComponent
-          text="CONTINUAR"
-          color={Colors.MAIN}
-          link="../../(tabs)/home"
-        />
+        <ButtonComponent text="SALVAR" color={Colors.MAIN} link="./" />
       </View>
     </View>
   );
 };
 
-export default password;
+export default Privacy;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: Colors.ZINC950,
+    flex: 1,
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
+    padding: 20,
+    paddingTop: 80,
   },
-  text: { paddingLeft: 10, paddingTop: 60, paddingBottom: 20 },
-  button: { paddingBottom: 30 },
-  title: {
-    fontSize: 25,
-    color: Colors.ZINC200,
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Colors.ZINC950,
+  },
+  loadingText: {
+    color: Colors.ZINC400,
     fontFamily: "Inter_700Bold",
+  },
+  content: {
+    marginTop: 20,
+    width: "100%",
+    alignItems: "center",
   },
   subTitle: {
     fontSize: 12,
     color: Colors.ZINC400,
     fontFamily: "Inter_700Bold",
+  },
+  text: {
+    paddingTop: 20,
+    marginHorizontal: 25,
+    alignItems: "flex-start",
+    paddingBottom: 10,
   },
 });

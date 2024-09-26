@@ -9,4 +9,6 @@ export const Colors = {
   ZINC500: "#71717A",
   ZINC900: "#18181B",
   ZINC950: "#09090B",
+  // Red
+  RED: "#D33B3B",
 };
