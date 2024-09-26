@@ -36,6 +36,7 @@ export const ServicesComponent: React.FC<servicesProps> = ({
 
 const styles = StyleSheet.create({
   container: {
+    // flex: 1,
     backgroundColor: Colors.ZINC900,
     borderRadius: 10,
     width: 330,

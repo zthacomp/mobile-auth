@@ -4,8 +4,18 @@ import { ButtonComponent } from "@/components/button";
 import { Colors } from "@/constants/Colors";
 import { InputComponent } from "@/components/input";
 import { AlignLeft } from "lucide-react-native";
+import { useFontsLoaded } from "@/assets/fonts/fonts";
 
 const registerAddress = () => {
+  const fontsLoaded = useFontsLoaded();
+
+  if (!fontsLoaded) {
+    return (
+      <View>
+        <Text>Loading fonts...</Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -104,10 +114,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     color: Colors.ZINC200,
+    fontFamily: "Inter_700Bold",
   },
   subTitle: {
     fontSize: 13,
     color: Colors.ZINC400,
+    fontFamily: "Inter_700Bold",
   },
   addressInfo: { flexDirection: "row" },
 });

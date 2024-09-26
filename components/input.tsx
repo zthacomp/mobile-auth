@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     position: "absolute",
     left: 21,
-    top: 15,
+    top: 14,
     zIndex: 1,
   },
   textInput: {

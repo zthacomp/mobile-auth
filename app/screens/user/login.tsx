@@ -8,7 +8,15 @@ import { Link } from "expo-router";
 import { useFontsLoaded } from "@/assets/fonts/fonts";
 
 const login = () => {
-  useFontsLoaded();
+  const fontsLoaded = useFontsLoaded();
+
+  if (!fontsLoaded) {
+    return (
+      <View>
+        <Text>Loading fonts...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -35,7 +43,7 @@ const login = () => {
       <ButtonComponent
         text="ACESSAR"
         color={Colors.MAIN}
-        link={"../(tabs)/home"}
+        link={"../../(tabs)/home"}
       />
       <Text style={styles.text}>
         Não tem uma conta?{" "}
