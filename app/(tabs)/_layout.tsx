@@ -10,10 +10,12 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
+          position: "absolute",
           backgroundColor: Colors.ZINC900,
           borderTopLeftRadius: 15,
           borderTopRightRadius: 15,
           height: 70,
+          borderColor: Colors.ZINC900,
         },
       }}
     >

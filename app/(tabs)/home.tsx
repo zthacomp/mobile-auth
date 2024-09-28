@@ -1,6 +1,7 @@
 import {
   Image,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -32,6 +33,7 @@ const home = () => {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <StatusBar barStyle="light-content" backgroundColor={Colors.ZINC950} />
         <UserComponent />
         <Image source={require("@/assets/images/Card.png")}></Image>
         <View style={styles.inputBox}>
