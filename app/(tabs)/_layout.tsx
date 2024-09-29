@@ -144,7 +144,15 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile/suport"
+        name="profile/support"
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: () => null,
+          tabBarButton: () => null,
+        }}
+      />
+      <Tabs.Screen
+        name="profile/connectedDevices"
         options={{
           tabBarLabel: () => null,
           tabBarIcon: () => null,

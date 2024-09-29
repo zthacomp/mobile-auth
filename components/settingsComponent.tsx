@@ -1,6 +1,6 @@
 import { Colors } from "@/constants/Colors";
 import { Check } from "lucide-react-native";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 interface settingsProps {
   text: string;
@@ -8,17 +8,20 @@ interface settingsProps {
 
 export const SettingsComponent: React.FC<settingsProps> = ({ text }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>{text}</Text>
-      <Pressable style={styles.button}>
-        <Check color={Colors.MAIN} size={15} />
-      </Pressable>
-    </View>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.container}>
+        <Text style={styles.text}>{text}</Text>
+        <Pressable style={styles.button}>
+          <Check color={Colors.MAIN} size={15} />
+        </Pressable>
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: Colors.ZINC900,
     borderRadius: 10,
     margin: 5,
@@ -40,4 +43,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  scrollContainer: {},
 });

@@ -2,7 +2,7 @@ import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Colors } from "@/constants/Colors";
 import { BackButtonComponent } from "@/components/backButton";
-import { ProfileButtonComponent } from "@/components/profileButton";
+import { ProfileButtonComponent } from "@/components/profileButtonComponent";
 import {
   Headset,
   Lock,
@@ -44,12 +44,12 @@ const profile = () => {
         <ProfileButtonComponent
           text="Dispositivos conectados"
           image={<MonitorSmartphone color={Colors.MAIN} />}
-          link="./"
+          link="../profile/connectedDevices"
         />
         <ProfileButtonComponent
           text="Suporte"
           image={<Headset color={Colors.MAIN} />}
-          link="../profile/suport"
+          link="../profile/support"
         />
         <LogoutComponent
           text="Logout"
@@ -69,14 +69,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.ZINC950,
   },
   scrollContainer: {
-    paddingBottom: 100,
+    paddingBottom: 250,
     alignItems: "center",
     justifyContent: "center",
   },
   user: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 100,
+    marginTop: "80%",
     marginBottom: 20,
   },
   icon: {
