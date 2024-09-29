@@ -12,6 +12,7 @@ import {
   Inter_800ExtraBold,
   Inter_900Black,
 } from "@expo-google-fonts/inter";
+import { View, Text } from "react-native";
 
 const FontContext = createContext<boolean | undefined>(undefined);
 
@@ -31,6 +32,14 @@ export const FontProvider: React.FC<FontProviderProps> = ({ children }) => {
     Inter_800ExtraBold,
     Inter_900Black,
   });
+
+  if (!fontsLoaded) {
+    return (
+      <View>
+        <Text>Loading fonts...</Text>
+      </View>
+    );
+  }
 
   return (
     <FontContext.Provider value={fontsLoaded}>{children}</FontContext.Provider>

@@ -1,4 +1,3 @@
-import { useFontsLoaded } from "@/assets/fonts/fonts";
 import { BackButtonComponent } from "@/components/backButton";
 import { ButtonComponent } from "@/components/button";
 import { InputComponent } from "@/components/input";
@@ -8,16 +7,6 @@ import { Lock } from "lucide-react-native";
 import { StyleSheet, Text, View } from "react-native";
 
 const Privacy = () => {
-  const fontsLoaded = useFontsLoaded();
-
-  if (!fontsLoaded) {
-    return (
-      <View style={styles.loadingContainer}>
-        <Text style={styles.loadingText}>Loading fonts...</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       <BackButtonComponent text="Privacidade" link="../profile" />

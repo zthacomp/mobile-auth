@@ -4,19 +4,8 @@ import { ButtonComponent } from "@/components/button";
 import { Colors } from "@/constants/Colors";
 import { InputComponent } from "@/components/input";
 import { AtSign } from "lucide-react-native";
-import { useFontsLoaded } from "@/assets/fonts/fonts";
 
 const email = () => {
-  const fontsLoaded = useFontsLoaded();
-
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Loading fonts...</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       <View>

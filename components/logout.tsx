@@ -1,6 +1,5 @@
 import { Colors } from "@/constants/Colors";
 import { Href, Link } from "expo-router";
-import { ChevronRight } from "lucide-react-native";
 import { StyleSheet, Text, View } from "react-native";
 
 interface buttonProps {
@@ -9,7 +8,7 @@ interface buttonProps {
   link: Href;
 }
 
-export const ProfileButtonComponent: React.FC<buttonProps> = ({
+export const LogoutComponent: React.FC<buttonProps> = ({
   image,
   text,
   link,
@@ -20,7 +19,6 @@ export const ProfileButtonComponent: React.FC<buttonProps> = ({
         {image}
         <Text style={styles.text}>{text}</Text>
       </View>
-      <ChevronRight color={Colors.MAIN} />
     </Link>
   );
 };

@@ -1,4 +1,3 @@
-import { useFontsLoaded } from "@/assets/fonts/fonts";
 import { UserComponent } from "@/components/user";
 import { Colors } from "@/constants/Colors";
 import { StyleSheet, Text, View } from "react-native";
@@ -7,15 +6,6 @@ import { Link } from "expo-router";
 import { KeyRound } from "lucide-react-native";
 
 const devices = () => {
-  const fontsLoaded = useFontsLoaded();
-
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Loading fonts...</Text>
-      </View>
-    );
-  }
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>

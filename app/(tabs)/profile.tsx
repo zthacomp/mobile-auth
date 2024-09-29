@@ -1,7 +1,6 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Colors } from "@/constants/Colors";
-import { useFontsLoaded } from "@/assets/fonts/fonts";
 import { BackButtonComponent } from "@/components/backButton";
 import { ProfileButtonComponent } from "@/components/profileButton";
 import {
@@ -12,59 +11,52 @@ import {
   MonitorSmartphone,
   UserCog,
 } from "lucide-react-native";
+import { LogoutComponent } from "@/components/logout";
 
 const profile = () => {
-  const fontsLoaded = useFontsLoaded();
-
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Loading fonts...</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
-      <BackButtonComponent text="Perfil" link="./home" />
-      <View style={styles.user}>
-        <Image
-          style={styles.icon}
-          source={require("@/assets/images/Logo.png")}
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <BackButtonComponent text="Perfil" link="./home" />
+        <View style={styles.user}>
+          <Image
+            style={styles.icon}
+            source={require("@/assets/images/Logo.png")}
+          />
+          <Text style={styles.userName}>User name</Text>
+          <Text style={styles.email}>joaosilva@email.com</Text>
+        </View>
+        <ProfileButtonComponent
+          text="Minha conta"
+          image={<UserCog color={Colors.MAIN} />}
+          link="../profile/account"
         />
-        <Text style={styles.userName}>User name</Text>
-        <Text style={styles.email}>joaosilva@email.com</Text>
-      </View>
-      <ProfileButtonComponent
-        text="Minha conta"
-        image={<UserCog color={Colors.MAIN} />}
-        link="../profile/account"
-      />
-      <ProfileButtonComponent
-        text="Endereço"
-        image={<MapPin color={Colors.MAIN} />}
-        link="../profile/address"
-      />
-      <ProfileButtonComponent
-        text="Privacidade"
-        image={<Lock color={Colors.MAIN} />}
-        link="../profile/privacy"
-      />
-      <ProfileButtonComponent
-        text="Dispositivos conectados"
-        image={<MonitorSmartphone color={Colors.MAIN} />}
-        link="./"
-      />
-      <ProfileButtonComponent
-        text="Suporte"
-        image={<Headset color={Colors.MAIN} />}
-        link="./"
-      />
-      <ProfileButtonComponent
-        text="Logout"
-        image={<LogOut color={Colors.RED} />}
-        link="./"
-      />
+        <ProfileButtonComponent
+          text="Endereço"
+          image={<MapPin color={Colors.MAIN} />}
+          link="../profile/address"
+        />
+        <ProfileButtonComponent
+          text="Privacidade"
+          image={<Lock color={Colors.MAIN} />}
+          link="../profile/privacy"
+        />
+        <ProfileButtonComponent
+          text="Dispositivos conectados"
+          image={<MonitorSmartphone color={Colors.MAIN} />}
+          link="./"
+        />
+        <ProfileButtonComponent
+          text="Suporte"
+          image={<Headset color={Colors.MAIN} />}
+          link="../profile/suport"
+        />
+        <LogoutComponent
+          text="Logout"
+          image={<LogOut color={Colors.RED} />}
+          link="../../screens/user/login"
+        />
+      </ScrollView>
     </View>
   );
 };
@@ -75,6 +67,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.ZINC950,
+  },
+  scrollContainer: {
+    paddingBottom: 100,
     alignItems: "center",
     justifyContent: "center",
   },

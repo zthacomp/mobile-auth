@@ -1,56 +1,71 @@
-import { useFontsLoaded } from "@/assets/fonts/fonts";
 import { Colors } from "@/constants/Colors";
-import { Href, Link } from "expo-router";
-import { View } from "lucide-react-native";
-import { Pressable, StyleSheet, Text } from "react-native";
+import { X } from "lucide-react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
-interface servicesProps {
-  text: string;
-  image: React.ReactNode;
-  link: Href;
+interface ServicesProps {
+  title: string;
+  image: any;
+  inscription: string;
+  access: string;
+  time: string;
 }
-
-export const ServicesComponent: React.FC<servicesProps> = ({
-  text,
+export const LinkedServices: React.FC<ServicesProps> = ({
+  title,
   image,
-  link,
+  inscription,
+  access,
+  time,
 }) => {
-  const fontsLoaded = useFontsLoaded();
-
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Loading fonts...</Text>
-      </View>
-    );
-  }
   return (
-    <Link replace href={link} style={styles.container} asChild>
-      <Pressable style={styles.view}>
-        {image && <View style={styles.img}>{image}</View>}
-        <Text style={styles.text}>{text}</Text>
-      </Pressable>
-    </Link>
+    <View style={styles.container}>
+      <Image style={styles.img} source={image} />
+      <View style={styles.textInfo}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.description}>
+          Desde {inscription} até o momento
+        </Text>
+        <Text style={styles.description}>
+          Último acesso em {access} às {time}h
+        </Text>
+      </View>
+      <X color={Colors.ZINC400} size={18} style={styles.closeIcon} />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     backgroundColor: Colors.ZINC900,
+    padding: 20,
     borderRadius: 10,
-    width: "90%",
-    height: 90,
-    margin: 5,
-  },
-  view: {
     flexDirection: "row",
-    alignItems: "center",
+    marginVertical: 5,
+    position: "relative",
   },
-  img: { marginLeft: 20 },
-  text: {
+  img: {
+    height: 60,
+    width: 60,
+    borderRadius: 15,
+    backgroundColor: "#fff",
+    marginTop: "1%",
+  },
+  textInfo: {
+    paddingHorizontal: 10,
+  },
+  title: {
+    fontSize: 18,
+    paddingBottom: 5,
     color: Colors.ZINC200,
-    fontFamily: "Inter_500Medium",
-    paddingLeft: 10,
+    fontFamily: "Inter_400Regular",
+  },
+  description: {
+    color: Colors.ZINC400,
+    fontFamily: "Inter_400Regular",
+    fontSize: 10,
+  },
+  closeIcon: {
+    position: "absolute",
+    top: 10,
+    right: 10,
   },
 });

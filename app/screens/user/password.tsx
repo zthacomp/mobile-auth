@@ -4,19 +4,8 @@ import { ButtonComponent } from "@/components/button";
 import { Colors } from "@/constants/Colors";
 import { InputComponent } from "@/components/input";
 import { Lock } from "lucide-react-native";
-import { useFontsLoaded } from "@/assets/fonts/fonts";
 
 const password = () => {
-  const fontsLoaded = useFontsLoaded();
-
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Loading fonts...</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       <View>

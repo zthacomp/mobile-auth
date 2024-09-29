@@ -1,4 +1,3 @@
-import { useFontsLoaded } from "@/assets/fonts/fonts";
 import { Colors } from "@/constants/Colors";
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
@@ -21,15 +20,6 @@ export const InputComponent: React.FC<InputProps> = ({
   width,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const fontsLoaded = useFontsLoaded();
-
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Loading fonts...</Text>
-      </View>
-    );
-  }
 
   return (
     <View

@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import React from "react";
 import { Colors } from "@/constants/Colors";
-import { useFontsLoaded } from "@/assets/fonts/fonts";
 import { UserComponent } from "@/components/user";
 import {
   Fingerprint,
@@ -17,19 +16,9 @@ import {
   RectangleEllipsis,
   Search,
 } from "lucide-react-native";
-import { ServicesComponent } from "@/components/services";
+import { ServicesComponent } from "@/components/servicesProfile";
 
 const home = () => {
-  const fontsLoaded = useFontsLoaded();
-
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Loading fonts...</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -77,7 +66,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     alignItems: "center",
     justifyContent: "center",
-    paddingBottom: 20,
+    paddingBottom: 100,
   },
   text: {
     color: Colors.ZINC200,

@@ -1,20 +1,8 @@
-import { useFontsLoaded } from "@/assets/fonts/fonts";
 import { UserComponent } from "@/components/user";
 import { Colors } from "@/constants/Colors";
-import { Link } from "expo-router";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 const qrCode = () => {
-  const fontsLoaded = useFontsLoaded();
-
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Loading fonts...</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>

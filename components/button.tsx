@@ -1,5 +1,4 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { useFontsLoaded } from "@/assets/fonts/fonts";
 import { Href, Link } from "expo-router";
 
 interface ButtonProps {
@@ -13,15 +12,6 @@ export const ButtonComponent: React.FC<ButtonProps> = ({
   color,
   link,
 }) => {
-  const fontsLoaded = useFontsLoaded();
-
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Loading fonts...</Text>
-      </View>
-    );
-  }
   return (
     <Link
       replace

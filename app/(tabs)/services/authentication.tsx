@@ -1,20 +1,9 @@
-import { useFontsLoaded } from "@/assets/fonts/fonts";
 import { UserComponent } from "@/components/user";
 import { Colors } from "@/constants/Colors";
 import { Copy } from "lucide-react-native";
 import { StyleSheet, Text, View } from "react-native";
 
 const authentication = () => {
-  const fontsLoaded = useFontsLoaded();
-
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Loading fonts...</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>

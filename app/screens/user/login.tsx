@@ -5,19 +5,8 @@ import { Colors } from "@/constants/Colors";
 import { InputComponent } from "@/components/input";
 import { Captions, Lock } from "lucide-react-native";
 import { Link } from "expo-router";
-import { useFontsLoaded } from "@/assets/fonts/fonts";
 
 const login = () => {
-  const fontsLoaded = useFontsLoaded();
-
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Loading fonts...</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       <Image

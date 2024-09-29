@@ -1,18 +1,7 @@
-import { useFontsLoaded } from "@/assets/fonts/fonts";
 import { Colors } from "@/constants/Colors";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 export const UserComponent = () => {
-  const fontsLoaded = useFontsLoaded();
-
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Loading fonts...</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.header}>
       <View>

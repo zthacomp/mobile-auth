@@ -143,6 +143,14 @@ export default function TabLayout() {
           tabBarButton: () => null,
         }}
       />
+      <Tabs.Screen
+        name="profile/suport"
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: () => null,
+          tabBarButton: () => null,
+        }}
+      />
     </Tabs>
   );
 }

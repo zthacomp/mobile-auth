@@ -1,4 +1,3 @@
-import { useFontsLoaded } from "@/assets/fonts/fonts";
 import { Colors } from "@/constants/Colors";
 import { Href, Link } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
@@ -10,16 +9,6 @@ interface buttonProps {
 }
 
 export const BackButtonComponent: React.FC<buttonProps> = ({ text, link }) => {
-  const fontsLoaded = useFontsLoaded();
-
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Loading fonts...</Text>
-      </View>
-    );
-  }
-
   return (
     <Link style={styles.container} href={link}>
       <View style={styles.content}>
