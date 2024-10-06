@@ -60,6 +60,8 @@ const styles = StyleSheet.create({
   },
   image: {
     marginBottom: 20,
+    height: 200,
+    width: 200,
   },
   link: {
     color: Colors.ZINC200,

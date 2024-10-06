@@ -1,5 +1,4 @@
 import {
-  Image,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -17,6 +16,7 @@ import {
   Search,
 } from "lucide-react-native";
 import { ServicesComponent } from "@/components/servicesProfile";
+import { EmailButton } from "@/components/emailButton";
 
 const home = () => {
   return (
@@ -24,7 +24,7 @@ const home = () => {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <StatusBar barStyle="light-content" backgroundColor={Colors.ZINC950} />
         <UserComponent />
-        <Image source={require("@/assets/images/Card.png")}></Image>
+        <EmailButton />
         <View style={styles.inputBox}>
           <TextInput
             style={styles.textInput}

@@ -1,9 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Colors } from "@/constants/Colors";
-import { LinkedServices } from "@/components/LinkedServices";
-import { LogoutComponent } from "@/components/logout";
-import { LogOut } from "lucide-react-native";
+import { LinkedServices } from "@/components/linkedServices";
 
 const services = () => {
   return (
