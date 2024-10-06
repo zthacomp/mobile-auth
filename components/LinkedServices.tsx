@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
     height: 60,
     width: 60,
     borderRadius: 15,
-    backgroundColor: "#fff",
     marginTop: "1%",
   },
   textInfo: {
