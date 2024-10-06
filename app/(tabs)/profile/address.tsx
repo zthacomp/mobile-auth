@@ -3,14 +3,14 @@ import { ButtonComponent } from "@/components/button";
 import { InputComponent } from "@/components/input";
 import { Colors } from "@/constants/Colors";
 import { AlignLeft } from "lucide-react-native";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 const address = () => {
   return (
     <View style={styles.container}>
-      <BackButtonComponent text="Endereço" link="../profile" />
-      <View style={styles.content}>
-        <ScrollView>
+      <ScrollView contentContainerStyle={styles.scroll}>
+        <BackButtonComponent text="Endereço" link="../profile" />
+        <View style={styles.content}>
           <InputComponent
             value=""
             place="Rua"
@@ -83,10 +83,9 @@ const address = () => {
             height={150}
             width={335}
           />
-
           <ButtonComponent text="SALVAR" color={Colors.MAIN} link={"./"} />
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -98,9 +97,17 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.ZINC950,
     flex: 1,
     alignItems: "center",
+    width: "100%",
   },
   content: {
+    flex: 1,
     marginTop: 120,
   },
-  addressInfo: { flexDirection: "row" },
+  scroll: {
+    flexGrow: 1,
+    paddingBottom: 100,
+  },
+  addressInfo: {
+    flexDirection: "row",
+  },
 });

@@ -17,6 +17,7 @@ export default function TabLayout() {
           height: 70,
           borderColor: Colors.ZINC900,
         },
+        tabBarHideOnKeyboard: true,
       }}
     >
       <Tabs.Screen

@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StatusBar, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { ButtonComponent } from "@/components/button";
 import { Colors } from "@/constants/Colors";
@@ -9,6 +9,7 @@ import { Link } from "expo-router";
 const login = () => {
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor={Colors.ZINC950} />
       <Image
         style={styles.image}
         source={require("@/assets/images/Logo.png")}
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
   },
   image: {
     marginBottom: 20,
-    height: 200,
+    height: "20%",
     width: 200,
   },
   link: {

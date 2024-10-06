@@ -12,6 +12,7 @@ import {
   UserCog,
 } from "lucide-react-native";
 import { LogoutComponent } from "@/components/logout";
+import { EmailButton } from "@/components/emailButton";
 
 const profile = () => {
   return (
@@ -28,32 +29,32 @@ const profile = () => {
         </View>
         <ProfileButtonComponent
           text="Minha conta"
-          image={<UserCog color={Colors.MAIN} />}
+          image={<UserCog color={Colors.MAIN} strokeWidth={1} />}
           link="../profile/account"
         />
         <ProfileButtonComponent
           text="Endereço"
-          image={<MapPin color={Colors.MAIN} />}
+          image={<MapPin color={Colors.MAIN} strokeWidth={1} />}
           link="../profile/address"
         />
         <ProfileButtonComponent
           text="Privacidade"
-          image={<Lock color={Colors.MAIN} />}
+          image={<Lock color={Colors.MAIN} strokeWidth={1} />}
           link="../profile/privacy"
         />
         <ProfileButtonComponent
           text="Dispositivos conectados"
-          image={<MonitorSmartphone color={Colors.MAIN} />}
+          image={<MonitorSmartphone color={Colors.MAIN} strokeWidth={1} />}
           link="../profile/connectedDevices"
         />
         <ProfileButtonComponent
           text="Suporte"
-          image={<Headset color={Colors.MAIN} />}
+          image={<Headset color={Colors.MAIN} strokeWidth={1} />}
           link="../profile/support"
         />
         <LogoutComponent
           text="Logout"
-          image={<LogOut color={Colors.RED} />}
+          image={<LogOut color={Colors.RED} strokeWidth={1} />}
           link="../../screens/user/login"
         />
       </ScrollView>
@@ -69,14 +70,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.ZINC950,
   },
   scrollContainer: {
-    paddingBottom: 250,
+    paddingBottom: 210,
     alignItems: "center",
     justifyContent: "center",
   },
   user: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop: "80%",
+    marginTop: "55%",
     marginBottom: 20,
   },
   icon: {

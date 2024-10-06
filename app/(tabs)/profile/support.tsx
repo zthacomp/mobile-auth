@@ -45,6 +45,8 @@ const styles = StyleSheet.create({
   },
   img: {
     margin: 40,
+    height: "25%",
+    width: 200,
   },
   views: {
     width: "100%",

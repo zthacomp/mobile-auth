@@ -1,4 +1,4 @@
-import { UserComponent } from "@/components/user";
+import { UserComponent } from "@/components/userComponent";
 import { Colors } from "@/constants/Colors";
 import { Copy } from "lucide-react-native";
 import { StyleSheet, Text, View } from "react-native";

@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React from "react";
 import { Colors } from "@/constants/Colors";
-import { UserComponent } from "@/components/user";
+import { UserComponent } from "@/components/userComponent";
 import {
   Fingerprint,
   QrCode,
@@ -24,7 +24,10 @@ const home = () => {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <StatusBar barStyle="light-content" backgroundColor={Colors.ZINC950} />
         <UserComponent />
-        <EmailButton />
+        <View style={styles.emailButtonContainer}>
+          <EmailButton />
+        </View>
+
         <View style={styles.inputBox}>
           <TextInput
             style={styles.textInput}
@@ -68,6 +71,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingBottom: 100,
   },
+  emailButtonContainer: { marginHorizontal: "5%" },
   text: {
     color: Colors.ZINC200,
     fontSize: 15,

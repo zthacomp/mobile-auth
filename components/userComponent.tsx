@@ -21,8 +21,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    padding: 30,
+    paddingHorizontal: 30,
     paddingTop: 60,
+    paddingBottom: 10,
   },
   greeting: {
     color: Colors.ZINC200,

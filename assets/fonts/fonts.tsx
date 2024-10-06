@@ -1,4 +1,3 @@
-// FontContext.tsx
 import React, { createContext, useContext } from "react";
 import {
   useFonts,
@@ -12,7 +11,9 @@ import {
   Inter_800ExtraBold,
   Inter_900Black,
 } from "@expo-google-fonts/inter";
-import { View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Colors } from "@/constants/Colors";
+import { RotatingLoaderCircle } from "../loadScreen";
 
 const FontContext = createContext<boolean | undefined>(undefined);
 
@@ -35,8 +36,8 @@ export const FontProvider: React.FC<FontProviderProps> = ({ children }) => {
 
   if (!fontsLoaded) {
     return (
-      <View>
-        <Text>Loading fonts...</Text>
+      <View style={styles.container}>
+        <RotatingLoaderCircle />
       </View>
     );
   }
@@ -53,3 +54,12 @@ export const useFontsLoaded = () => {
   }
   return context;
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: Colors.ZINC950,
+  },
+});

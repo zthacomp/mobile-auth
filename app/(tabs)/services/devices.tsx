@@ -1,4 +1,4 @@
-import { UserComponent } from "@/components/user";
+import { UserComponent } from "@/components/userComponent";
 import { Colors } from "@/constants/Colors";
 import { StyleSheet, Text, View } from "react-native";
 import { ButtonComponent } from "../../../components/button";
