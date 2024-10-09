@@ -1,29 +1,30 @@
 import { Image, StatusBar, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ButtonComponent } from "@/components/button";
 import { Colors } from "@/constants/Colors";
 import { InputComponent } from "@/components/input";
 import { Captions, Lock } from "lucide-react-native";
 import { Link, router } from "expo-router";
-import { signin } from "@/src/lib";
+import { signin } from "@/src/userServices";
 import { RotatingLoaderCircle } from "@/assets/loadScreen";
+import { UserContext, UserContextType } from "@/app/context";
+
+interface Data {
+  cpf: string;
+  password: string;
+}
 
 const Login = () => {
-  interface Data {
-    cpf: string;
-    password: string;
-  }
-
   const [data, setData] = useState<Data>({ cpf: "", password: "" });
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { token, setToken } = useContext(UserContext) as UserContextType;
 
   const onLogin = async () => {
     setIsLoading(true);
     try {
       const response = await signin(data);
-      const token = response.data.accessToken;
-      console.log(token);
+      setToken(response.data.accessToken);
       router.push("/(tabs)/home");
     } catch (error) {
       console.error(error);

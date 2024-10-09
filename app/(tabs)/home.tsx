@@ -6,7 +6,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-import React from "react";
 import { Colors } from "@/constants/Colors";
 import { UserComponent } from "@/components/userComponent";
 import {
@@ -27,7 +26,6 @@ const home = () => {
         <View style={styles.emailButtonContainer}>
           <EmailButton />
         </View>
-
         <View style={styles.inputBox}>
           <TextInput
             style={styles.textInput}
