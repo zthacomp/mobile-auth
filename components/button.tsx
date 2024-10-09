@@ -5,16 +5,18 @@ interface ButtonProps {
   text: string;
   color: string;
   onPress: () => void;
+  disabled: boolean;
 }
 
 export const ButtonComponent: React.FC<ButtonProps> = ({
   text,
   color,
   onPress,
+  disabled,
 }) => {
   return (
     <View style={[styles.button, { backgroundColor: color }]}>
-      <Pressable onPress={onPress}>
+      <Pressable onPress={onPress} disabled={disabled}>
         <Text style={styles.text}>{text}</Text>
       </Pressable>
     </View>

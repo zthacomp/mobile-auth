@@ -6,6 +6,7 @@ import { InputComponent } from "@/components/input";
 import { Captions, Lock } from "lucide-react-native";
 import { Link, router } from "expo-router";
 import { signin } from "@/src/lib";
+import { RotatingLoaderCircle } from "@/assets/loadScreen";
 
 const Login = () => {
   interface Data {
@@ -15,8 +16,10 @@ const Login = () => {
 
   const [data, setData] = useState<Data>({ cpf: "", password: "" });
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onLogin = async () => {
+    setIsLoading(true);
     try {
       const response = await signin(data);
       const token = response.data.accessToken;
@@ -25,6 +28,8 @@ const Login = () => {
     } catch (error) {
       console.error(error);
       setErrorMessage("CPF ou senha errada.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -35,38 +40,55 @@ const Login = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.ZINC950} />
-      <Image
-        style={styles.image}
-        source={require("@/assets/images/Logo.png")}
-      />
-      <InputComponent
-        value={data.cpf}
-        onChangeText={(value) => handleInputChange("cpf", value)}
-        place="CPF"
-        image={<Captions color={Colors.ZINC200} size="20" strokeWidth={1} />}
-        isPassword={false}
-        height={50}
-        width={335}
-      />
-      <InputComponent
-        value={data.password}
-        onChangeText={(value) => handleInputChange("password", value)}
-        place="Senha"
-        image={<Lock color={Colors.ZINC200} size="20" strokeWidth={1} />}
-        isPassword={true}
-        height={50}
-        width={335}
-      />
-      {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
-      <ButtonComponent text="ACESSAR" color={Colors.MAIN} onPress={onLogin} />
-      <Text style={styles.text}>
-        Não tem uma conta?{" "}
-        <Text>
-          <Link style={styles.link} href={"./register"}>
-            Cadastre-se
-          </Link>
-        </Text>
-      </Text>
+      {isLoading ? (
+        <View style={styles.loaderContainer}>
+          <RotatingLoaderCircle />
+        </View>
+      ) : (
+        <>
+          <Image
+            style={styles.image}
+            source={require("@/assets/images/Logo.png")}
+          />
+          <InputComponent
+            value={data.cpf}
+            onChangeText={(value) => handleInputChange("cpf", value)}
+            place="CPF"
+            image={
+              <Captions color={Colors.ZINC200} size="20" strokeWidth={1} />
+            }
+            isPassword={false}
+            height={50}
+            width={335}
+          />
+          <InputComponent
+            value={data.password}
+            onChangeText={(value) => handleInputChange("password", value)}
+            place="Senha"
+            image={<Lock color={Colors.ZINC200} size="20" strokeWidth={1} />}
+            isPassword={true}
+            height={50}
+            width={335}
+          />
+          {errorMessage ? (
+            <Text style={styles.error}>{errorMessage}</Text>
+          ) : null}
+          <ButtonComponent
+            text="ACESSAR"
+            color={Colors.MAIN}
+            onPress={onLogin}
+            disabled={isLoading}
+          />
+          <Text style={styles.text}>
+            Não tem uma conta?{" "}
+            <Text>
+              <Link style={styles.link} href={"./register"}>
+                Cadastre-se
+              </Link>
+            </Text>
+          </Text>
+        </>
+      )}
     </View>
   );
 };
@@ -79,6 +101,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.ZINC950,
     alignItems: "center",
     justifyContent: "center",
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   text: {
     color: Colors.ZINC500,
