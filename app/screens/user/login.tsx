@@ -1,12 +1,37 @@
 import { Image, StatusBar, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { ButtonComponent } from "@/components/button";
 import { Colors } from "@/constants/Colors";
 import { InputComponent } from "@/components/input";
 import { Captions, Lock } from "lucide-react-native";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+import { signin } from "@/src/lib";
 
-const login = () => {
+const Login = () => {
+  interface Data {
+    cpf: string;
+    password: string;
+  }
+
+  const [data, setData] = useState<Data>({ cpf: "", password: "" });
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const onLogin = async () => {
+    try {
+      const response = await signin(data);
+      const token = response.data.accessToken;
+      console.log(token);
+      router.push("/(tabs)/home");
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("CPF ou senha errada.");
+    }
+  };
+
+  const handleInputChange = (field: keyof Data, value: string) => {
+    setData((prevData) => ({ ...prevData, [field]: value }));
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.ZINC950} />
@@ -15,7 +40,8 @@ const login = () => {
         source={require("@/assets/images/Logo.png")}
       />
       <InputComponent
-        value=""
+        value={data.cpf}
+        onChangeText={(value) => handleInputChange("cpf", value)}
         place="CPF"
         image={<Captions color={Colors.ZINC200} size="20" strokeWidth={1} />}
         isPassword={false}
@@ -23,29 +49,29 @@ const login = () => {
         width={335}
       />
       <InputComponent
-        value=""
+        value={data.password}
+        onChangeText={(value) => handleInputChange("password", value)}
         place="Senha"
         image={<Lock color={Colors.ZINC200} size="20" strokeWidth={1} />}
         isPassword={true}
         height={50}
         width={335}
       />
-      <ButtonComponent
-        text="ACESSAR"
-        color={Colors.MAIN}
-        link={"../../(tabs)/home"}
-      />
+      {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
+      <ButtonComponent text="ACESSAR" color={Colors.MAIN} onPress={onLogin} />
       <Text style={styles.text}>
         Não tem uma conta?{" "}
-        <Link style={styles.link} href={"./register"}>
-          Cadastre-se
-        </Link>
+        <Text>
+          <Link style={styles.link} href={"./register"}>
+            Cadastre-se
+          </Link>
+        </Text>
       </Text>
     </View>
   );
 };
 
-export default login;
+export default Login;
 
 const styles = StyleSheet.create({
   container: {
@@ -66,5 +92,9 @@ const styles = StyleSheet.create({
   },
   link: {
     color: Colors.ZINC200,
+  },
+  error: {
+    color: "#cf4d3f",
+    margin: 10,
   },
 });

@@ -4,25 +4,20 @@ import { Href, Link } from "expo-router";
 interface ButtonProps {
   text: string;
   color: string;
-  link: Href;
+  onPress: () => void;
 }
 
 export const ButtonComponent: React.FC<ButtonProps> = ({
   text,
   color,
-  link,
+  onPress,
 }) => {
   return (
-    <Link
-      replace
-      href={link}
-      style={[styles.button, { backgroundColor: color }]}
-      asChild
-    >
-      <Pressable>
+    <View style={[styles.button, { backgroundColor: color }]}>
+      <Pressable onPress={onPress}>
         <Text style={styles.text}>{text}</Text>
       </Pressable>
-    </Link>
+    </View>
   );
 };
 

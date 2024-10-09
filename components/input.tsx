@@ -4,6 +4,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 
 interface InputProps {
   value: string;
+  onChangeText: (text: string) => void;
   place: string;
   image: React.ReactNode;
   isPassword: boolean;
@@ -13,6 +14,7 @@ interface InputProps {
 
 export const InputComponent: React.FC<InputProps> = ({
   value,
+  onChangeText,
   place,
   image,
   isPassword,
@@ -32,6 +34,8 @@ export const InputComponent: React.FC<InputProps> = ({
       <TextInput
         style={[styles.textInput, { height: height - 2, width }]}
         placeholder={place}
+        value={value}
+        onChangeText={onChangeText}
         placeholderTextColor={Colors.ZINC400}
         secureTextEntry={isPassword}
         onFocus={() => setIsFocused(true)}
