@@ -25,7 +25,7 @@ export const RotatingLoaderCircle: React.FC = () => {
 
   return (
     <Animated.View style={animatedStyle}>
-      <LoaderCircle color={Colors.ZINC500} size={40} strokeWidth={2} />
+      <LoaderCircle color={Colors.MAIN} size={40} strokeWidth={2} />
     </Animated.View>
   );
 };
