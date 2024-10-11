@@ -26,9 +26,8 @@ const Login = () => {
       const response = await signin(data);
       setToken(response.data.accessToken);
       router.push("/(tabs)/home");
-    } catch (error) {
-      console.error(error);
-      setErrorMessage("CPF ou senha errada.");
+    } catch (error: any) {
+      setErrorMessage(error.response.data.message);
     } finally {
       setIsLoading(false);
     }
@@ -51,6 +50,9 @@ const Login = () => {
             style={styles.image}
             source={require("@/assets/images/Logo.png")}
           />
+          {errorMessage ? (
+            <Text style={styles.error}>{errorMessage}</Text>
+          ) : null}
           <InputComponent
             value={data.cpf}
             onChangeText={(value) => handleInputChange("cpf", value)}
@@ -71,9 +73,7 @@ const Login = () => {
             height={50}
             width={335}
           />
-          {errorMessage ? (
-            <Text style={styles.error}>{errorMessage}</Text>
-          ) : null}
+
           <ButtonComponent
             text="ACESSAR"
             color={Colors.MAIN}
