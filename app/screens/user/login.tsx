@@ -5,9 +5,10 @@ import { Colors } from "@/constants/Colors";
 import { InputComponent } from "@/components/input";
 import { Captions, Lock } from "lucide-react-native";
 import { Link, router } from "expo-router";
-import { signin } from "@/src/userServices";
+import { signin } from "@/src/services/userServices";
 import { RotatingLoaderCircle } from "@/assets/loadScreen";
 import { UserContext, UserContextType } from "@/app/context";
+import { ErrorStatus } from "@/components/errorStatus";
 
 interface Data {
   cpf: string;
@@ -18,13 +19,35 @@ const Login = () => {
   const [data, setData] = useState<Data>({ cpf: "", password: "" });
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { token, setToken } = useContext(UserContext) as UserContextType;
+  const { setToken } = useContext(UserContext) as UserContextType;
+
+  const handleCpfChange = (value: string) => {
+    let formattedCpf = value.replace(/\D/g, "");
+    formattedCpf = formattedCpf.replace(/(\d{3})(\d)/, "$1.$2");
+    formattedCpf = formattedCpf.replace(/(\d{3})(\d)/, "$1.$2");
+    formattedCpf = formattedCpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+
+    setData((prevData) => ({ ...prevData, cpf: formattedCpf }));
+  };
+
+  const removeCpfFormatting = (cpf: string) => {
+    return cpf.replace(/\D/g, "");
+  };
 
   const onLogin = async () => {
-    setIsLoading(true);
+    if (!data.cpf || !data.password) {
+      setErrorMessage("Preencha o CPF e a senha para continuar!");
+      return;
+    }
+
     try {
-      const response = await signin(data);
-      setToken(response.data.accessToken);
+      setIsLoading(true);
+      const formattedData = {
+        ...data,
+        cpf: removeCpfFormatting(data.cpf),
+      };
+      const response = await signin(formattedData);
+      setToken(response?.data.accessToken);
       router.push("/(tabs)/home");
     } catch (error: any) {
       setErrorMessage(error.response.data.message);
@@ -50,12 +73,10 @@ const Login = () => {
             style={styles.image}
             source={require("@/assets/images/Logo.png")}
           />
-          {errorMessage ? (
-            <Text style={styles.error}>{errorMessage}</Text>
-          ) : null}
+          {errorMessage ? <ErrorStatus text={errorMessage} /> : null}
           <InputComponent
             value={data.cpf}
-            onChangeText={(value) => handleInputChange("cpf", value)}
+            onChangeText={handleCpfChange}
             place="CPF"
             image={
               <Captions color={Colors.ZINC200} size="20" strokeWidth={1} />
@@ -63,6 +84,7 @@ const Login = () => {
             isPassword={false}
             height={50}
             width={335}
+            editable={true}
           />
           <InputComponent
             value={data.password}
@@ -72,6 +94,7 @@ const Login = () => {
             isPassword={true}
             height={50}
             width={335}
+            editable={true}
           />
 
           <ButtonComponent
@@ -80,14 +103,6 @@ const Login = () => {
             onPress={onLogin}
             disabled={isLoading}
           />
-          <Text style={styles.text}>
-            Não tem uma conta?{" "}
-            <Text>
-              <Link style={styles.link} href={"./register"}>
-                Cadastre-se
-              </Link>
-            </Text>
-          </Text>
         </>
       )}
     </View>

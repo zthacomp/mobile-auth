@@ -1,46 +1,23 @@
 import { UserContext, UserContextType } from "@/app/context";
 import { Colors } from "@/constants/Colors";
-import { jwtDecode } from "jwt-decode";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
-interface TokenPayload {
-  id: string;
-  name: string;
-  email: string;
-  cpf: string;
-  role: string;
-  is_active: boolean;
-  is_verified: boolean;
-  created_at: Date;
-  updated_at: Date;
-}
-
 export const UserComponent = () => {
-  const { token } = useContext(UserContext) as UserContextType;
-  const [userInfo, setUserInfo] = useState<TokenPayload | null>(null);
-
-  useEffect(() => {
-    if (token) {
-      try {
-        const decoded: TokenPayload = jwtDecode(token);
-        setUserInfo(decoded);
-      } catch (error) {
-        console.error("Erro ao decodificar o token:", error);
-      }
-    }
-  }, [token]);
+  const { userInfo } = useContext(UserContext) as UserContextType;
 
   return (
     <View style={styles.header}>
       <View>
         <Text style={styles.greeting}>Olá,</Text>
-        <Text style={styles.name}>{userInfo?.name}</Text>
+        <Text style={styles.name}>{userInfo?.person.name}</Text>
       </View>
       <Image
         style={styles.icon}
-        source={require("@/assets/images/Logo.png")}
-      ></Image>
+        source={{
+          uri: userInfo?.person.profile_photo_url || "@/assets/images/Logo.png",
+        }}
+      />
     </View>
   );
 };

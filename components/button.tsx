@@ -1,5 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import { Href, Link } from "expo-router";
+import { Pressable, StyleSheet, Text } from "react-native";
 
 interface ButtonProps {
   text: string;
@@ -15,11 +14,13 @@ export const ButtonComponent: React.FC<ButtonProps> = ({
   disabled,
 }) => {
   return (
-    <View style={[styles.button, { backgroundColor: color }]}>
-      <Pressable onPress={onPress} disabled={disabled}>
-        <Text style={styles.text}>{text}</Text>
-      </Pressable>
-    </View>
+    <Pressable
+      style={[styles.button, { backgroundColor: disabled ? "#237f71" : color }]}
+      onPress={onPress}
+      disabled={disabled}
+    >
+      <Text style={styles.text}>{text}</Text>
+    </Pressable>
   );
 };
 

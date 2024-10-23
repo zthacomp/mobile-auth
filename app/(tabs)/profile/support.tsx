@@ -14,15 +14,15 @@ const support = () => {
         />
         <View style={styles.views}>
           <Mail color={Colors.MAIN} />
-          <Text style={styles.text}>E-mail: emailtest@gmail.com</Text>
+          <Text style={styles.text}>E-mail: suporte.link@ztha.com.br</Text>
         </View>
         <View style={styles.views}>
           <Phone color={Colors.MAIN} />
-          <Text style={styles.text}>Telefone: (xx) xxxxx-xxxx</Text>
+          <Text style={styles.text}>Telefone: (75) 9989-6676</Text>
         </View>
         <View style={styles.views}>
           <Phone color={Colors.MAIN} />
-          <Text style={styles.text}>Telefone: (xx) xxxxx-xxxx</Text>
+          <Text style={styles.text}>Telefone: (75) 3261-1075</Text>
         </View>
       </View>
     </View>

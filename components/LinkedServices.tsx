@@ -5,9 +5,9 @@ import { Image, StyleSheet, Text, View } from "react-native";
 interface ServicesProps {
   title: string;
   image: any;
-  inscription: string;
-  access: string;
-  time: string;
+  inscription: Date;
+  access: Date;
+  time: Date;
 }
 export const LinkedServices: React.FC<ServicesProps> = ({
   title,
@@ -16,16 +16,19 @@ export const LinkedServices: React.FC<ServicesProps> = ({
   access,
   time,
 }) => {
+  console.log(access);
+
   return (
     <View style={styles.container}>
       <Image style={styles.img} source={image} />
       <View style={styles.textInfo}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.description}>
-          Desde {inscription} até o momento
+          Desde {access ? access.toString() : "Data de acesso"} até o momento
         </Text>
         <Text style={styles.description}>
-          Último acesso em {access} às {time}h
+          Último acesso em {access ? access.toString() : "Data de acesso"} às{" "}
+          {access ? access.toString() : "Data de acesso"} h
         </Text>
       </View>
       <X color={Colors.ZINC400} size={18} style={styles.closeIcon} />

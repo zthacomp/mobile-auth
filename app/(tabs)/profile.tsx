@@ -1,5 +1,5 @@
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { Colors } from "@/constants/Colors";
 import { BackButtonComponent } from "@/components/backButton";
 import { ProfileButtonComponent } from "@/components/profileButtonComponent";
@@ -12,9 +12,11 @@ import {
   UserCog,
 } from "lucide-react-native";
 import { LogoutComponent } from "@/components/logout";
-import { EmailButton } from "@/components/emailButton";
+import { UserContext, UserContextType } from "../context";
 
 const profile = () => {
+  const { userInfo } = useContext(UserContext) as UserContextType;
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -22,20 +24,19 @@ const profile = () => {
         <View style={styles.user}>
           <Image
             style={styles.icon}
-            source={require("@/assets/images/Logo.png")}
+            source={{
+              uri:
+                userInfo?.person.profile_photo_url ||
+                "@/assets/images/Logo.png",
+            }}
           />
-          <Text style={styles.userName}>User name</Text>
-          <Text style={styles.email}>joaosilva@email.com</Text>
+          <Text style={styles.userName}>{userInfo?.person.name}</Text>
+          <Text style={styles.email}>{userInfo?.email}</Text>
         </View>
         <ProfileButtonComponent
           text="Minha conta"
           image={<UserCog color={Colors.MAIN} strokeWidth={1} />}
           link="../profile/account"
-        />
-        <ProfileButtonComponent
-          text="Endereço"
-          image={<MapPin color={Colors.MAIN} strokeWidth={1} />}
-          link="../profile/address"
         />
         <ProfileButtonComponent
           text="Privacidade"

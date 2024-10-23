@@ -3,13 +3,14 @@ import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
 interface InputProps {
-  value: string;
+  value: any;
   onChangeText: (text: string) => void;
   place: string;
   image: React.ReactNode;
   isPassword: boolean;
   height: number;
   width: number;
+  editable: boolean;
 }
 
 export const InputComponent: React.FC<InputProps> = ({
@@ -20,6 +21,7 @@ export const InputComponent: React.FC<InputProps> = ({
   isPassword,
   height,
   width,
+  editable,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -40,6 +42,7 @@ export const InputComponent: React.FC<InputProps> = ({
         secureTextEntry={isPassword}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
+        editable={editable}
       />
     </View>
   );

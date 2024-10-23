@@ -16,16 +16,22 @@ import {
 } from "lucide-react-native";
 import { ServicesComponent } from "@/components/servicesProfile";
 import { EmailButton } from "@/components/emailButton";
+import { useContext } from "react";
+import { UserContext, UserContextType } from "../context";
 
 const home = () => {
+  const { userInfo } = useContext(UserContext) as UserContextType;
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <StatusBar barStyle="light-content" backgroundColor={Colors.ZINC950} />
         <UserComponent />
-        <View style={styles.emailButtonContainer}>
-          <EmailButton />
-        </View>
+        {userInfo?.is_verified == false ? (
+          <View style={styles.emailButtonContainer}>
+            <EmailButton />
+          </View>
+        ) : null}
         <View style={styles.inputBox}>
           <TextInput
             style={styles.textInput}

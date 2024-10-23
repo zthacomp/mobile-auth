@@ -1,34 +1,72 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { LinkedServices } from "@/components/linkedServices";
+import { getServiceUsers } from "@/src/services/userServices";
+import { UserContext, UserContextType } from "../context";
+import { ErrorStatus } from "@/components/errorStatus";
+
+interface servicesData {
+  service: {
+    id: string;
+    title: string;
+    start_at: Date;
+    last_access_at: Date;
+  };
+}
 
 const services = () => {
+  const { userInfo, token } = useContext(UserContext) as UserContextType;
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [data, setData] = useState<servicesData[]>([]);
+
+  const getServices = async () => {
+    if (!userInfo || !userInfo.id) {
+      setErrorMessage("Usuário não encontrado!");
+      return;
+    }
+
+    if (!token) {
+      setErrorMessage("Token é necessário");
+      return;
+    }
+
+    try {
+      const response = await getServiceUsers(userInfo.id, token);
+      console.log(response.data.services);
+      setData(response.data.services);
+    } catch (error: any) {
+      setErrorMessage(error.response.data.message);
+    }
+  };
+
+  useEffect(() => {
+    getServices();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Servicos vinculados</Text>
       <View style={styles.content}>
-        <LinkedServices
-          title="Cardeneta Digital"
-          image={require("../../assets/images/Logo.png")}
-          inscription="30/09/2024"
-          access="02/10/2024"
-          time="10:23"
-        />
-        <LinkedServices
-          title="Cardeneta Digital"
-          image={require("../../assets/images/Logo.png")}
-          inscription="30/09/2024"
-          access="02/10/2024"
-          time="10:23"
-        />
-        <LinkedServices
-          title="Cardeneta Digital"
-          image={require("../../assets/images/Logo.png")}
-          inscription="30/09/2024"
-          access="02/10/2024"
-          time="10:23"
-        />
+        {data.length > 0 ? (
+          data.map((service: servicesData, index) => (
+            <LinkedServices
+              key={index}
+              title={service.service.title}
+              image={require("../../assets/images/Logo.png")}
+              inscription={service.service.start_at}
+              access={service.service.last_access_at}
+              time={service.service.last_access_at}
+            />
+          ))
+        ) : (
+          <View style={styles.message}>
+            <Text style={styles.subTitle}>
+              Nenhum serviço vinculado com esse usuário
+            </Text>
+          </View>
+        )}
+        {errorMessage ? <ErrorStatus text={errorMessage} /> : null}
       </View>
     </View>
   );
@@ -54,5 +92,16 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_700Bold",
     paddingTop: "15%",
     paddingBottom: "5%",
+  },
+  message: {
+    backgroundColor: Colors.ZINC900,
+    borderRadius: 10,
+  },
+  subTitle: {
+    textAlign: "center",
+    color: Colors.ZINC200,
+    fontSize: 15,
+    padding: 10,
+    fontFamily: "Inter_500Medium",
   },
 });
