@@ -1,5 +1,5 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { BackButtonComponent } from "@/components/backButton";
 import { ProfileButtonComponent } from "@/components/profileButtonComponent";
@@ -69,7 +69,10 @@ const Profile = () => {
       setProfileImage(imageFile.uri);
       setSuccessMessage("Imagem atualizada com sucesso!");
     } catch (error: any) {
-      setErrorMessage(error.response.data.message);
+      setErrorMessage(
+        "Erro ao atualizar a imagem: " +
+          (error.response?.data?.message || error.message),
+      );
     }
   };
 

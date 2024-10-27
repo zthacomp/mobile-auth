@@ -1,21 +1,21 @@
+import React, { useContext, useEffect, useState } from "react"; // Add React import
 import { UserContext, UserContextType } from "@/app/context";
 import { UserComponent } from "@/components/userComponent";
 import { Colors } from "@/constants/Colors";
 import { Copy } from "lucide-react-native";
-import { useContext, useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { authenticator } from "otplib";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { TOTP } from "totp-generator";
+import { Link } from "expo-router";
 
-const authentication = () => {
+const Authentication = () => {
+  const { secret } = useContext(UserContext) as UserContextType;
   const [token, setToken] = useState("");
   const [timeLeft, setTimeLeft] = useState(30);
 
-  const { secret } = useContext(UserContext) as UserContextType;
-
   const updateCode = () => {
     if (secret) {
-      // const newToken = authenticator.generate(secret);
-      // setToken(newToken);
+      const { otp } = TOTP.generate(secret);
+      setToken(otp);
     }
   };
 
@@ -33,10 +33,12 @@ const authentication = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+      console.log(secret);
+      console.log(token);
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [token]);
 
   return (
     <View style={styles.container}>
@@ -44,27 +46,35 @@ const authentication = () => {
         <UserComponent />
       </View>
       <View style={styles.innerContainer}>
-        <Text style={styles.text}>Código de acesso</Text>
-        <View style={styles.code}>
-          <Text
-            style={{
-              color: Colors.ZINC200,
-              fontSize: 30,
-              fontFamily: "Inter_700Bold",
-              paddingRight: 10,
-            }}
-          >
-            {token}
-          </Text>
-          <Copy color={Colors.MAIN} size={35} strokeWidth={1} />
-        </View>
-        <Text style={styles.text}>Tempo restante {timeLeft}s</Text>
+        {token === "" ? (
+          <Link href="/(tabs)/services/qrCode" style={styles.subText}>
+            Clique aqui e escaneei o QR code para liberar o código de acesso
+          </Link>
+        ) : (
+          <>
+            <Text style={styles.text}>Código de acesso</Text>
+            <View style={styles.code}>
+              <Text
+                style={{
+                  color: Colors.ZINC200,
+                  fontSize: 30,
+                  fontFamily: "Inter_700Bold",
+                  paddingRight: 10,
+                }}
+              >
+                {token}
+              </Text>
+              <Copy color={Colors.MAIN} size={35} strokeWidth={1} />
+            </View>
+            <Text style={styles.text}>Tempo restante {timeLeft}s</Text>
+          </>
+        )}
       </View>
     </View>
   );
 };
 
-export default authentication;
+export default Authentication;
 
 const styles = StyleSheet.create({
   container: {
@@ -95,5 +105,14 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginVertical: 10,
     fontFamily: "Inter_400Regular",
+  },
+  subText: {
+    textAlign: "center",
+    color: Colors.ZINC200,
+    fontSize: 13,
+    fontFamily: "Inter_400Regular",
+    paddingRight: 10,
+    margin: 20,
+    textDecorationLine: "underline",
   },
 });

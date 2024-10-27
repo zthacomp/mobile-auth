@@ -52,6 +52,30 @@ const Account = () => {
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const formatCpf = (value: string) => {
+    let formattedCpf = value.replace(/\D/g, "");
+    formattedCpf = formattedCpf.replace(/(\d{3})(\d)/, "$1.$2");
+    formattedCpf = formattedCpf.replace(/(\d{3})(\d)/, "$1.$2");
+    formattedCpf = formattedCpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    return formattedCpf;
+  };
+
+  const formatPhone = (value: string) => {
+    let formattedPhone = value.replace(/\D/g, ""); // Remove caracteres não numéricos
+    if (formattedPhone.length > 10) {
+      formattedPhone = formattedPhone.replace(
+        /(\d{2})(\d{5})(\d{4})/,
+        "($1) $2-$3",
+      ); // Formata para (xx) xxxxx-xxxx
+    } else {
+      formattedPhone = formattedPhone.replace(
+        /(\d{2})(\d{4})(\d{4})/,
+        "($1) $2-$3",
+      ); // Formata para (xx) xxxx-xxxx
+    }
+    return formattedPhone;
+  };
+
   const update = async () => {
     if (!userInfo || !userInfo.id) {
       setErrorMessage("Usuário não encontrado!");
@@ -100,11 +124,11 @@ const Account = () => {
     if (userInfo) {
       setData({
         name: userInfo.person.name || "",
-        cpf: userInfo.cpf || "",
+        cpf: formatCpf(userInfo.cpf || ""),
         birth: userInfo.person.birth_date
           ? dayjs(userInfo.person.birth_date).format("DD/MM/YYYY")
           : "",
-        cellphone: userInfo.person.cellphone || "",
+        cellphone: formatPhone(userInfo.person.cellphone || ""),
         gender: userInfo.person.gender || "",
       });
     }

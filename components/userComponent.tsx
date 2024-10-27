@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 export const UserComponent = () => {
-  const { token, userInfo } = useContext(UserContext) as UserContextType;
+  const { userInfo } = useContext(UserContext) as UserContextType;
 
   return (
     <View style={styles.header}>
@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 30,
     paddingTop: 60,
-    paddingBottom: 10,
   },
   greeting: {
     color: Colors.ZINC200,

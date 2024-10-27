@@ -2,7 +2,7 @@
   "expo": {
     "name": "Ztha Authenticator",
     "slug": "MobileAuth",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/Logo.png",
     "scheme": "myapp",
@@ -13,7 +13,8 @@
       "backgroundColor": "#09090B"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.luisgomes.MobileAuth"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +22,11 @@
         "backgroundColor": "#09090B"
       },
       "softwareKeyboardLayoutMode": "pan",
-      "package": "com.luisgomes.MobileAuth"
+      "package": "com.luisgomes.MobileAuth",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -47,6 +52,12 @@
       "eas": {
         "projectId": "a7167a08-ae33-4107-b052-0acf52fa08fb"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/a7167a08-ae33-4107-b052-0acf52fa08fb"
     }
   }
 }

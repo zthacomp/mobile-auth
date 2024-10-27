@@ -4,6 +4,7 @@ import { UserComponent } from "@/components/userComponent";
 import { Colors } from "@/constants/Colors";
 import { generate2FAHandler } from "@/src/services/userServices";
 import { CameraView, CameraType } from "expo-camera";
+import { router } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -64,6 +65,7 @@ const QrCode = () => {
               const secret = extractSecretFromUrl(data);
               if (secret) {
                 setSecret(secret);
+                router.push("/(tabs)/services/authentication");
               } else {
                 console.error("Nenhum secret encontrado no QR code.");
               }
