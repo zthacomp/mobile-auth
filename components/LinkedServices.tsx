@@ -1,37 +1,68 @@
 import { Colors } from "@/constants/Colors";
 import { X } from "lucide-react-native";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { CloseModal } from "./closeModal";
+import { useState } from "react";
 
 interface ServicesProps {
+  id: string;
   title: string;
   image: any;
-  inscription: Date;
-  access: Date;
-  time: Date;
+  inscription: string;
+  access: string;
+  time: string;
+  onDisconnect: () => void;
+  end: string;
 }
 export const LinkedServices: React.FC<ServicesProps> = ({
+  id,
   title,
   image,
   inscription,
   access,
   time,
+  onDisconnect,
+  end,
 }) => {
-  console.log(access);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
+  const handleDisconnect = () => {
+    onDisconnect();
+    setModalVisible(false);
+  };
   return (
     <View style={styles.container}>
       <Image style={styles.img} source={image} />
       <View style={styles.textInfo}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.description}>
-          Desde {access ? access.toString() : "Data de acesso"} até o momento
+          Desde {inscription ? inscription.toString() : "Data de incrição"} até
+          o momento.
         </Text>
         <Text style={styles.description}>
           Último acesso em {access ? access.toString() : "Data de acesso"} às{" "}
-          {access ? access.toString() : "Data de acesso"} h
+          {time ? time.toString() : "horas de acesso."}h.
+        </Text>
+        <Text style={styles.description}>
+          {end
+            ? "Serviço encerrado em " + end.toString() + "."
+            : "Serviço ativo."}
         </Text>
       </View>
-      <X color={Colors.ZINC400} size={18} style={styles.closeIcon} />
+      {!end ? (
+        <Pressable onPress={() => setModalVisible(true)}>
+          <X color={Colors.ZINC400} size={18} />
+        </Pressable>
+      ) : null}
+
+      <CloseModal
+        id={id}
+        ipAddress={title}
+        text="Deseja encerrar este serviço?"
+        visible={modalVisible}
+        onDisconnect={handleDisconnect}
+        onClose={() => setModalVisible(false)}
+      />
     </View>
   );
 };
@@ -46,7 +77,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   img: {
-    height: 60,
+    height: 70,
     width: 60,
     borderRadius: 15,
     marginTop: "1%",
@@ -63,11 +94,6 @@ const styles = StyleSheet.create({
   description: {
     color: Colors.ZINC400,
     fontFamily: "Inter_400Regular",
-    fontSize: 10,
-  },
-  closeIcon: {
-    position: "absolute",
-    top: 10,
-    right: 10,
+    fontSize: 11,
   },
 });

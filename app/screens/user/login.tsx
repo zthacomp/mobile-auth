@@ -1,10 +1,10 @@
-import { Image, StatusBar, StyleSheet, Text, View } from "react-native";
+import { Image, StatusBar, StyleSheet, View } from "react-native";
 import React, { useContext, useState } from "react";
 import { ButtonComponent } from "@/components/button";
 import { Colors } from "@/constants/Colors";
 import { InputComponent } from "@/components/input";
 import { Captions, Lock } from "lucide-react-native";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import { signin } from "@/src/services/userServices";
 import { RotatingLoaderCircle } from "@/assets/loadScreen";
 import { UserContext, UserContextType } from "@/app/context";
@@ -48,7 +48,11 @@ const Login = () => {
       };
       const response = await signin(formattedData);
       setToken(response?.data.accessToken);
+
       router.push("/(tabs)/home");
+
+      data.cpf = "";
+      data.password = "";
     } catch (error: any) {
       setErrorMessage(error.response.data.message);
     } finally {
@@ -135,9 +139,5 @@ const styles = StyleSheet.create({
   },
   link: {
     color: Colors.ZINC200,
-  },
-  error: {
-    color: "#cf4d3f",
-    margin: 10,
   },
 });

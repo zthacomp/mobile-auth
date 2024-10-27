@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "MobileAuth",
+    "name": "Ztha Authenticator",
     "slug": "MobileAuth",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/Logo.png",
     "scheme": "myapp",
@@ -20,16 +20,33 @@
         "foregroundImage": "./assets/images/Logo.png",
         "backgroundColor": "#09090B"
       },
-      "softwareKeyboardLayoutMode": "pan"
+      "softwareKeyboardLayoutMode": "pan",
+      "package": "com.luisgomes.MobileAuth"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/Logo.png"
+      "favicon": "./assets/images/Logo.png",
+      "https": true
     },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Permitir que $(PRODUCT_NAME) acesse sua câmera",
+          "microphonePermission": "Permitir que $(PRODUCT_NAME) acesse seu microfone",
+          "recordAudioAndroid": true
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a7167a08-ae33-4107-b052-0acf52fa08fb"
+      }
     }
   }
 }

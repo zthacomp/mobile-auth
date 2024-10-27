@@ -26,7 +26,7 @@ export const EmailButton = () => {
               seu E-mail
             </Text>
           </View>
-          <ArrowRight color={Colors.ZINC200} style={styles.icon} />
+          {/* <ArrowRight color={Colors.ZINC200} style={styles.icon} /> */}
         </View>
       </ImageBackground>
     </Link>

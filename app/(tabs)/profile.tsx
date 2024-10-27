@@ -1,5 +1,5 @@
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { BackButtonComponent } from "@/components/backButton";
 import { ProfileButtonComponent } from "@/components/profileButtonComponent";
@@ -7,29 +7,100 @@ import {
   Headset,
   Lock,
   LogOut,
-  MapPin,
   MonitorSmartphone,
+  Pencil,
   UserCog,
 } from "lucide-react-native";
 import { LogoutComponent } from "@/components/logout";
 import { UserContext, UserContextType } from "../context";
+import { updateImage } from "@/src/services/userServices";
+import { SuccessStatus } from "@/components/successMessage";
+import { ErrorStatus } from "@/components/errorStatus";
+import * as ImagePicker from "expo-image-picker";
 
-const profile = () => {
-  const { userInfo } = useContext(UserContext) as UserContextType;
+const Profile = () => {
+  const { token, userInfo } = useContext(UserContext) as UserContextType;
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+
+  const pickImage = async () => {
+    if (!userInfo || !userInfo.id) {
+      setErrorMessage("Usuário não encontrado!");
+      return;
+    }
+
+    if (!token) {
+      setErrorMessage("Token é necessário");
+      return;
+    }
+
+    try {
+      const permissionResult =
+        await ImagePicker.requestCameraPermissionsAsync();
+      if (permissionResult.granted === false) {
+        alert("Você precisa dar permissão para acessar a galeria!");
+        return;
+      }
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        const image = {
+          uri: result.assets[0].uri,
+          type: result.assets[0].type || "image/jpeg",
+          name: `profile_${userInfo.id}.jpeg`,
+        };
+        await update(userInfo.id, token, image);
+      }
+    } catch (error: any) {
+      alert("Erro ao fazer o upload da imagem: " + error.message);
+    }
+  };
+
+  const update = async (userId: string, token: string, imageFile: any) => {
+    try {
+      await updateImage(userId, token, imageFile);
+      setProfileImage(imageFile.uri);
+      setSuccessMessage("Imagem atualizada com sucesso!");
+    } catch (error: any) {
+      setErrorMessage(error.response.data.message);
+    }
+  };
+
+  useEffect(() => {
+    if (userInfo?.person.profile_photo_url) {
+      setProfileImage(userInfo.person.profile_photo_url);
+    }
+  }, [userInfo?.person.profile_photo_url]);
 
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <BackButtonComponent text="Perfil" link="./home" />
         <View style={styles.user}>
-          <Image
-            style={styles.icon}
-            source={{
-              uri:
-                userInfo?.person.profile_photo_url ||
-                "@/assets/images/Logo.png",
-            }}
-          />
+          <View style={styles.imageContainer}>
+            <Image
+              style={styles.icon}
+              source={{
+                uri: profileImage || "@/assets/images/Logo.png",
+              }}
+            />
+            <Pencil
+              style={styles.pencilIcon}
+              color={Colors.MAIN}
+              size={20}
+              strokeWidth={1}
+              onPress={pickImage}
+            />
+          </View>
+          {successMessage ? <SuccessStatus text={successMessage} /> : null}
+          {errorMessage ? <ErrorStatus text={errorMessage} /> : null}
           <Text style={styles.userName}>{userInfo?.person.name}</Text>
           <Text style={styles.email}>{userInfo?.email}</Text>
         </View>
@@ -63,7 +134,7 @@ const profile = () => {
   );
 };
 
-export default profile;
+export default Profile;
 
 const styles = StyleSheet.create({
   container: {
@@ -81,9 +152,21 @@ const styles = StyleSheet.create({
     marginTop: "55%",
     marginBottom: 20,
   },
-  icon: {
-    height: 80,
+  imageContainer: {
+    position: "relative",
     width: 80,
+    height: 80,
+  },
+  icon: {
+    height: "100%",
+    width: "100%",
+    borderRadius: 100,
+  },
+  pencilIcon: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    backgroundColor: Colors.ZINC900,
     borderRadius: 50,
   },
   userName: {

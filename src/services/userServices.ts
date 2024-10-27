@@ -34,7 +34,6 @@ interface updateUserStatusData {
 
 export const signin = async (data: signinData) => {
   const response = await api.post("/api/users/login", data);
-
   return response;
 };
 
@@ -74,6 +73,7 @@ export const getServiceUsers = async (userId: string, token: string) => {
       Authorization: `Bearer ${token}`,
     },
   });
+  console.log(response.data);
   return response;
 };
 
@@ -90,4 +90,23 @@ export const generate2FAHandler = (userId: string, token: string) => {
   return response;
 };
 
-export const logout = () => {};
+export const updateImage = async (
+  userId: string,
+  token: string,
+  imageFile: any,
+) => {
+  try {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    const response = await api.post(`/api/people/${userId}/upload`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};

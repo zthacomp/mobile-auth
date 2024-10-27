@@ -32,14 +32,14 @@ const home = () => {
             <EmailButton />
           </View>
         ) : null}
-        <View style={styles.inputBox}>
+        {/* <View style={styles.inputBox}>
           <TextInput
             style={styles.textInput}
             placeholder="Pesquise os serviços disponíveis"
             placeholderTextColor={Colors.ZINC400}
           />
           <Search color={Colors.ZINC200} />
-        </View>
+        </View> */}
         <Text style={styles.text}>Serviços</Text>
         <ServicesComponent
           text="Código de autenticação"

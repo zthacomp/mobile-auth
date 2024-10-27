@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     width: 200,
   },
   views: {
-    width: "100%",
+    width: "110%",
     alignItems: "center",
     paddingLeft: "10%",
     flexDirection: "row",

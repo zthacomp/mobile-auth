@@ -1,7 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import { StyleSheet, Text, View } from "react-native";
 import { ButtonComponent } from "../../../components/button";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 import { KeyRound } from "lucide-react-native";
 
 const devices = () => {

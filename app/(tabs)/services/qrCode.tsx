@@ -3,36 +3,48 @@ import { ErrorStatus } from "@/components/errorStatus";
 import { UserComponent } from "@/components/userComponent";
 import { Colors } from "@/constants/Colors";
 import { generate2FAHandler } from "@/src/services/userServices";
+import { CameraView, CameraType } from "expo-camera";
 import { useContext, useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
-const qrCode = () => {
-  const { userInfo, token } = useContext(UserContext) as UserContextType;
+const QrCode = () => {
+  const { userInfo, token, setSecret } = useContext(
+    UserContext,
+  ) as UserContextType;
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [data, setData] = useState<string>("");
+  const [facing] = useState<CameraType>("back");
 
-  const generateQrCode = async () => {
-    try {
-      if (!userInfo || !userInfo.id) {
-        setErrorMessage("Usuário não encontrado!");
-        return;
-      }
-
-      if (!token) {
-        setErrorMessage("Token é necessário");
-        return;
-      }
-
-      const response = await generate2FAHandler(userInfo.id, token);
-      setData(response.data.qrCodeUrl);
-    } catch (error: any) {
-      setErrorMessage(error.response.data.message);
-    }
+  const extractSecretFromUrl = (url: string) => {
+    const secretMatch = url.match(/secret=([^&]+)/);
+    return secretMatch ? secretMatch[1] : null;
   };
 
   useEffect(() => {
+    const generateQrCode = async () => {
+      try {
+        if (!userInfo || !userInfo.id) {
+          setErrorMessage("Usuário não encontrado!");
+          return;
+        }
+
+        if (!token) {
+          setErrorMessage("Token é necessário");
+          return;
+        }
+
+        const response = await generate2FAHandler(userInfo.id, token);
+        console.log(response.data);
+        setData(response.data.qrCodeUrl);
+      } catch (error: any) {
+        setErrorMessage(
+          error.response?.data?.message || "Erro ao gerar QR Code",
+        );
+      }
+    };
+
     generateQrCode();
-  }, []);
+  }, [userInfo, token]);
 
   return (
     <View style={styles.container}>
@@ -43,11 +55,22 @@ const qrCode = () => {
         <Text style={styles.text}>
           Escaneie o QR code para acessar a sua conta em um dos nossos sistemas
         </Text>
-        {data ? (
-          <Image source={{ uri: data }} style={styles.qrCodeImage} />
-        ) : (
-          <Text style={styles.text}>Carregando QR Code...</Text>
-        )}
+
+        <View style={styles.container}>
+          <CameraView
+            style={styles.camera}
+            facing={facing}
+            onBarcodeScanned={({ data }: { data: string }) => {
+              const secret = extractSecretFromUrl(data);
+              if (secret) {
+                setSecret(secret);
+              } else {
+                console.error("Nenhum secret encontrado no QR code.");
+              }
+            }}
+          ></CameraView>
+        </View>
+
         <Text style={styles.text}>
           Certifique-se de que a permissão para acessar a câmera está habilitada
         </Text>
@@ -57,7 +80,7 @@ const qrCode = () => {
   );
 };
 
-export default qrCode;
+export default QrCode;
 
 const styles = StyleSheet.create({
   container: {
@@ -83,9 +106,15 @@ const styles = StyleSheet.create({
     marginHorizontal: "10%",
     textAlign: "center",
   },
-  qrCodeImage: {
-    width: 400,
-    height: 400,
+  permissionText: {
+    color: Colors.ZINC200,
+    fontSize: 18,
     marginVertical: 10,
+    fontFamily: "Inter_600SemiBold",
+  },
+  camera: {
+    width: 300,
+    height: 300,
+    marginVertical: 20,
   },
 });

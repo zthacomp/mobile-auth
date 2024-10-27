@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 export const UserComponent = () => {
-  const { userInfo } = useContext(UserContext) as UserContextType;
+  const { token, userInfo } = useContext(UserContext) as UserContextType;
 
   return (
     <View style={styles.header}>

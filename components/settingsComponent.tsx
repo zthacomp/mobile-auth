@@ -1,19 +1,31 @@
 import { Colors } from "@/constants/Colors";
 import { Check } from "lucide-react-native";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 interface settingsProps {
   text: string;
+  response: boolean;
+  onPress: () => void;
 }
 
-export const SettingsComponent: React.FC<settingsProps> = ({ text }) => {
+export const SettingsComponent: React.FC<settingsProps> = ({
+  text,
+  response,
+  onPress,
+}) => {
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         <Text style={styles.text}>{text}</Text>
-        <Pressable style={styles.button}>
-          <Check color={Colors.MAIN} size={15} />
-        </Pressable>
+        <TouchableOpacity onPress={onPress} style={styles.button}>
+          {response ? <Check color={Colors.MAIN} size={15} /> : null}
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );

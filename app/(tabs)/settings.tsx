@@ -1,24 +1,78 @@
+import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
 import { Colors } from "@/constants/Colors";
 import { SettingsComponent } from "@/components/settingsComponent";
+import { useCameraPermissions } from "expo-camera";
 
 const settings = () => {
+  const [cameraPermission, requestCameraPermission, revokeCameraPermission] =
+    useCameraPermissions();
+  const [cameraAccessGranted, setCameraAccessGranted] =
+    useState<boolean>(false);
+  const [per, setPer] = useState<boolean>(false);
+
+  const handleCameraPermission = async () => {
+    if (cameraAccessGranted) {
+      await revokeCameraPermission();
+      setCameraAccessGranted(false);
+    } else {
+      const { granted } = await requestCameraPermission();
+      setCameraAccessGranted(granted);
+    }
+  };
+
+  const ok = () => {
+    setPer(!per);
+  };
+
+  useEffect(() => {
+    if (cameraPermission?.granted) {
+      setCameraAccessGranted(true);
+    } else {
+      setCameraAccessGranted(false);
+    }
+  }, [cameraPermission]);
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Text style={styles.text}>Configurações</Text>
         <Text style={styles.functions}>Permissões</Text>
         <View style={styles.content}>
-          <SettingsComponent text="Acesso à câmera" />
-          <SettingsComponent text="Acesso ao app por biometria" />
+          <SettingsComponent
+            text="Acesso à câmera"
+            response={cameraAccessGranted}
+            onPress={handleCameraPermission}
+          />
+
+          <SettingsComponent
+            text="Acesso ao app por biometria"
+            response={cameraAccessGranted}
+            onPress={ok}
+          />
         </View>
         <Text style={styles.functions}>Notificações</Text>
         <View style={styles.content}>
-          <SettingsComponent text="Logins realizados" />
-          <SettingsComponent text="Serviços vinculados" />
-          <SettingsComponent text="Dispositivos conectados" />
-          <SettingsComponent text="Atualizações de perfil" />
+          <SettingsComponent
+            text="Logins realizados"
+            response={cameraAccessGranted}
+            onPress={ok}
+          />
+          <SettingsComponent
+            text="Serviços vinculados"
+            response={cameraAccessGranted}
+            onPress={ok}
+          />
+          <SettingsComponent
+            text="Dispositivos conectados"
+            response={cameraAccessGranted}
+            onPress={ok}
+          />
+          <SettingsComponent
+            text="Atualizações de perfil"
+            response={cameraAccessGranted}
+            onPress={ok}
+          />
         </View>
       </ScrollView>
     </View>

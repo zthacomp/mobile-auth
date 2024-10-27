@@ -5,14 +5,15 @@ import { LinkedServices } from "@/components/linkedServices";
 import { getServiceUsers } from "@/src/services/userServices";
 import { UserContext, UserContextType } from "../context";
 import { ErrorStatus } from "@/components/errorStatus";
+import { format } from "date-fns";
+import { desconnectUserService } from "@/src/services/serviceServices";
 
 interface servicesData {
-  service: {
-    id: string;
-    title: string;
-    start_at: Date;
-    last_access_at: Date;
-  };
+  id: string;
+  title: string;
+  starts_at: Date;
+  last_access_at: Date;
+  ends_at: Date;
 }
 
 const services = () => {
@@ -33,8 +34,33 @@ const services = () => {
 
     try {
       const response = await getServiceUsers(userInfo.id, token);
-      console.log(response.data.services);
       setData(response.data.services);
+    } catch (error: any) {
+      setErrorMessage(error.response.data.message);
+    }
+  };
+  const desconnectService = async (serviceId: string) => {
+    if (!userInfo || !userInfo.id) {
+      setErrorMessage("Usuário não encontrado!");
+      return;
+    }
+
+    if (!serviceId) {
+      setErrorMessage("Id do serviço é necessário");
+      return;
+    }
+
+    if (!token) {
+      setErrorMessage("Token é necessário");
+      return;
+    }
+
+    try {
+      await desconnectUserService(
+        { user_id: userInfo.id, service_id: serviceId },
+        token,
+      );
+      getServices();
     } catch (error: any) {
       setErrorMessage(error.response.data.message);
     }
@@ -42,7 +68,7 @@ const services = () => {
 
   useEffect(() => {
     getServices();
-  }, []);
+  }, [data]);
 
   return (
     <View style={styles.container}>
@@ -52,11 +78,14 @@ const services = () => {
           data.map((service: servicesData, index) => (
             <LinkedServices
               key={index}
-              title={service.service.title}
+              id={service.id}
+              title={service.title}
               image={require("../../assets/images/Logo.png")}
-              inscription={service.service.start_at}
-              access={service.service.last_access_at}
-              time={service.service.last_access_at}
+              inscription={format(new Date(service.starts_at), "dd/MM/yyyy")}
+              access={format(new Date(service.last_access_at), "dd/MM/yyyy")}
+              time={format(new Date(service.last_access_at), "HH:mm")}
+              onDisconnect={() => desconnectService(service.id)}
+              end={format(new Date(service.ends_at), "dd/MM/yyyy")}
             />
           ))
         ) : (

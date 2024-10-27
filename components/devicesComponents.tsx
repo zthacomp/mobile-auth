@@ -1,6 +1,9 @@
+import React, { useState } from "react";
 import { Colors } from "@/constants/Colors";
-import { Smartphone } from "lucide-react-native";
-import { View, StyleSheet, Text } from "react-native";
+import { Smartphone, X } from "lucide-react-native";
+import { View, StyleSheet, Text, Pressable, Modal } from "react-native";
+import { format } from "date-fns";
+import { CloseModal } from "./closeModal";
 
 interface devicesProps {
   id: string;
@@ -8,6 +11,7 @@ interface devicesProps {
   location: string;
   createAt: string;
   updateAt: string;
+  onDelete: () => void;
 }
 
 export const Devices: React.FC<devicesProps> = ({
@@ -16,17 +20,40 @@ export const Devices: React.FC<devicesProps> = ({
   location,
   createAt,
   updateAt,
+  onDelete,
 }) => {
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+
+  const handleDisconnect = () => {
+    onDelete();
+    setModalVisible(false);
+  };
+
   return (
     <View style={styles.container}>
       <Smartphone color={Colors.MAIN} />
       <View style={styles.content}>
-        <Text style={styles.text}>ID: {id}</Text>
         <Text style={styles.text}>IP: {ipAddress}</Text>
         <Text style={styles.text}>Localização: {location}</Text>
-        <Text style={styles.text}>Criado: {createAt}</Text>
-        <Text style={styles.text}>Atualizado: {updateAt}</Text>
+        <Text style={styles.text}>
+          Criado: {format(new Date(createAt), "dd/MM/yyyy")}
+        </Text>
+        <Text style={styles.text}>
+          Atualizado: {format(new Date(updateAt), "dd/MM/yyyy")}
+        </Text>
       </View>
+      <Pressable style={styles.close} onPress={() => setModalVisible(true)}>
+        <X color={Colors.ZINC400} size={18} />
+      </Pressable>
+
+      <CloseModal
+        id={id}
+        ipAddress={ipAddress}
+        text="Deseja desconectar este dispositivo?"
+        visible={modalVisible}
+        onDisconnect={handleDisconnect}
+        onClose={() => setModalVisible(false)}
+      />
     </View>
   );
 };
@@ -38,11 +65,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     padding: 10,
+    marginTop: 10,
+    width: 300,
   },
   content: { justifyContent: "center", alignItems: "center" },
   text: {
     color: Colors.ZINC200,
     fontFamily: "Inter_500Medium",
     padding: 5,
+  },
+  close: {
+    position: "absolute",
+    top: 10,
+    right: 10,
   },
 });
