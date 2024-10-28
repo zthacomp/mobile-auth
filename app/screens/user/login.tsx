@@ -1,4 +1,4 @@
-import { Image, StatusBar, StyleSheet, View } from "react-native";
+import { Image, KeyboardAvoidingView, Platform, StatusBar, StyleSheet, View } from "react-native";
 import React, { useContext, useState } from "react";
 import { ButtonComponent } from "@/components/button";
 import { Colors } from "@/constants/Colors";
@@ -65,7 +65,11 @@ const Login = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView 
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+    >
       <StatusBar barStyle="light-content" backgroundColor={Colors.ZINC950} />
       {isLoading ? (
         <View style={styles.loaderContainer}>
@@ -109,7 +113,7 @@ const Login = () => {
           />
         </>
       )}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

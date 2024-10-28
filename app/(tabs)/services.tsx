@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
-import { LinkedServices } from "@/components/linkedServices";
+import { LinkedServices } from "@/components/LinkedServices";
 import { getServiceUsers } from "@/src/services/userServices";
 import { UserContext, UserContextType } from "../context";
 import { ErrorStatus } from "@/components/errorStatus";
 import { format } from "date-fns";
-import { desconnectUserService } from "@/src/services/serviceServices";
+import { disconnectUserService } from "@/src/services/serviceServices";
 
 interface servicesData {
   id: string;
@@ -39,7 +39,7 @@ const services = () => {
       setErrorMessage(error.response.data.message);
     }
   };
-  const desconnectService = async (serviceId: string) => {
+  const disconnectService = async (serviceId: string) => {
     if (!userInfo || !userInfo.id) {
       setErrorMessage("Usuário não encontrado!");
       return;
@@ -56,7 +56,7 @@ const services = () => {
     }
 
     try {
-      await desconnectUserService(
+      await disconnectUserService(
         { user_id: userInfo.id, service_id: serviceId },
         token,
       );
@@ -84,7 +84,7 @@ const services = () => {
               inscription={format(new Date(service.starts_at), "dd/MM/yyyy")}
               access={format(new Date(service.last_access_at), "dd/MM/yyyy")}
               time={format(new Date(service.last_access_at), "HH:mm")}
-              onDisconnect={() => desconnectService(service.id)}
+              onDisconnect={() => disconnectService(service.id)}
               end={format(new Date(service.ends_at), "dd/MM/yyyy")}
             />
           ))

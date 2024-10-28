@@ -48,7 +48,7 @@ const Authentication = () => {
       <View style={styles.innerContainer}>
         {token === "" ? (
           <Link href="/(tabs)/services/qrCode" style={styles.subText}>
-            Clique aqui e escaneei o QR code para liberar o código de acesso
+            Clique aqui e escaneie o QR code para liberar o código de acesso
           </Link>
         ) : (
           <>

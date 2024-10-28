@@ -1,6 +1,5 @@
 import { Colors } from "@/constants/Colors";
 import { Href, Link } from "expo-router";
-import { View } from "lucide-react-native";
 import { Pressable, StyleSheet, Text } from "react-native";
 
 interface servicesProps {
@@ -17,7 +16,7 @@ export const ServicesComponent: React.FC<servicesProps> = ({
   return (
     <Link replace href={link} style={styles.container} asChild>
       <Pressable style={styles.view}>
-        {image && <View style={styles.img}>{image}</View>}
+        {image}
         <Text style={styles.text}>{text}</Text>
       </Pressable>
     </Link>
@@ -36,8 +35,8 @@ const styles = StyleSheet.create({
   view: {
     flexDirection: "row",
     alignItems: "center",
+    padding: 24
   },
-  img: { marginLeft: 20 },
   text: {
     color: Colors.ZINC200,
     fontFamily: "Inter_500Medium",

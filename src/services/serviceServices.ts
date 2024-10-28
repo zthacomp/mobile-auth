@@ -1,12 +1,12 @@
 import { api } from "./userServices";
 
-interface desconnectData {
+interface disconnectData {
   user_id: string;
   service_id: string;
 }
 
-export const desconnectUserService = async (
-  data: desconnectData,
+export const disconnectUserService = async (
+  data: disconnectData,
   token: string,
 ) => {
   const response = await api.patch("/api/services/disconnect", data, {

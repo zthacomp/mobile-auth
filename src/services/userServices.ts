@@ -96,10 +96,11 @@ export const updateImage = async (
 ) => {
   try {
     const formData = new FormData();
-    formData.append("image", imageFile);
+    formData.append("file", imageFile);
 
     const response = await api.post(`/api/people/${userId}/upload`, formData, {
       headers: {
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
     });
