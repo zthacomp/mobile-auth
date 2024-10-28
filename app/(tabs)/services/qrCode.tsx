@@ -1,51 +1,19 @@
 import { UserContext, UserContextType } from "@/app/context";
-import { ErrorStatus } from "@/components/errorStatus";
 import { UserComponent } from "@/components/userComponent";
 import { Colors } from "@/constants/Colors";
-import { generate2FAHandler } from "@/src/services/userServices";
 import { CameraView, CameraType } from "expo-camera";
 import { router } from "expo-router";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 const QrCode = () => {
-  const { userInfo, token, setSecret } = useContext(
-    UserContext,
-  ) as UserContextType;
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [data, setData] = useState<string>("");
+  const { setSecret } = useContext(UserContext) as UserContextType;
   const [facing] = useState<CameraType>("back");
 
   const extractSecretFromUrl = (url: string) => {
     const secretMatch = url.match(/secret=([^&]+)/);
     return secretMatch ? secretMatch[1] : null;
   };
-
-  useEffect(() => {
-    const generateQrCode = async () => {
-      try {
-        if (!userInfo || !userInfo.id) {
-          setErrorMessage("Usuário não encontrado!");
-          return;
-        }
-
-        if (!token) {
-          setErrorMessage("Token é necessário");
-          return;
-        }
-
-        const response = await generate2FAHandler(userInfo.id, token);
-        console.log(response.data);
-        setData(response.data.qrCodeUrl);
-      } catch (error: any) {
-        setErrorMessage(
-          error.response?.data?.message || "Erro ao gerar QR Code",
-        );
-      }
-    };
-
-    generateQrCode();
-  }, [userInfo, token]);
 
   return (
     <View style={styles.container}>
@@ -76,7 +44,6 @@ const QrCode = () => {
         <Text style={styles.text}>
           Certifique-se de que a permissão para acessar a câmera está habilitada
         </Text>
-        {errorMessage ? <ErrorStatus text={errorMessage} /> : null}
       </View>
     </View>
   );

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
-import { LinkedServices } from "@/components/LinkedServices";
+import { LinkedServices } from "@/components/linkedServices";
 import { getServiceUsers } from "@/src/services/userServices";
 import { UserContext, UserContextType } from "../context";
 import { ErrorStatus } from "@/components/errorStatus";

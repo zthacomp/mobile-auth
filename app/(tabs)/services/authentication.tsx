@@ -3,18 +3,17 @@ import { UserContext, UserContextType } from "@/app/context";
 import { UserComponent } from "@/components/userComponent";
 import { Colors } from "@/constants/Colors";
 import { Copy } from "lucide-react-native";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { TOTP } from "totp-generator";
 import { Link } from "expo-router";
 
 const Authentication = () => {
   const { secret } = useContext(UserContext) as UserContextType;
   const [token, setToken] = useState("");
-  const [timeLeft, setTimeLeft] = useState(30);
 
   const updateCode = () => {
     if (secret) {
-      const { otp } = TOTP.generate(secret);
+      const { otp } = TOTP.generate(secret, { period: 30 });
       setToken(otp);
     }
   };
@@ -24,21 +23,10 @@ const Authentication = () => {
 
     const interval = setInterval(() => {
       updateCode();
-      setTimeLeft(30);
     }, 30000);
 
     return () => clearInterval(interval);
   }, [secret]);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-      console.log(secret);
-      console.log(token);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [token]);
 
   return (
     <View style={styles.container}>
@@ -66,7 +54,7 @@ const Authentication = () => {
               </Text>
               <Copy color={Colors.MAIN} size={35} strokeWidth={1} />
             </View>
-            <Text style={styles.text}>Tempo restante {timeLeft}s</Text>
+            {/* <Text style={styles.text}>Tempo restante {timeLeft}s</Text> */}
           </>
         )}
       </View>

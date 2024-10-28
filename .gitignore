@@ -23,3 +23,5 @@ expo-env.d.ts
 # Pastas nativas
 /android/
 ios/
+
+eas.json
