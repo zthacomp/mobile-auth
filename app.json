@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.luisgomes.MobileAuth"
+      "bundleIdentifier": "com.ztha.MobileAuth"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +22,7 @@
         "backgroundColor": "#09090B"
       },
       "softwareKeyboardLayoutMode": "pan",
-      "package": "com.luisgomes.MobileAuth",
+      "package": "com.ztha.MobileAuth",
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
@@ -43,21 +43,31 @@
           "microphonePermission": "Permitir que $(PRODUCT_NAME) acesse seu microfone",
           "recordAudioAndroid": true
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableProguardInReleaseBuilds": true,
+            "extraProguardRules": "-keep public class com.horcrux.svg.** {*;}",
+            "allowBackup": false
+          }
+        }
       ]
     ],
     "experiments": {
       "typedRoutes": true
-    },
-    "extra": {
-      "eas": {
-        "projectId": "a7167a08-ae33-4107-b052-0acf52fa08fb"
-      }
     },
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "updates": {
       "url": "https://u.expo.dev/a7167a08-ae33-4107-b052-0acf52fa08fb"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4ff9ea64-a975-4fd3-a1db-187bdff6ac2c"
+      }
     }
   }
 }
