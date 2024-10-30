@@ -5,7 +5,7 @@ import { Link, router } from "expo-router";
 import { KeyRound } from "lucide-react-native";
 import { registerDevice } from "@/src/services/deviceServices";
 import { UserContext, UserContextType } from "@/app/context";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import * as Location from "expo-location";
 import NetInfo from "@react-native-community/netinfo";
 import { ErrorStatus } from "@/components/errorStatus";
@@ -13,6 +13,21 @@ import { ErrorStatus } from "@/components/errorStatus";
 const Devices = () => {
   const { userInfo, token } = useContext(UserContext) as UserContextType;
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [locationPermissionGranted, setLocationPermissionGranted] =
+    useState<boolean>(false);
+
+  useEffect(() => {
+    const requestLocationPermission = async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMessage("Permissão de localização negada!");
+      } else {
+        setLocationPermissionGranted(true);
+      }
+    };
+
+    requestLocationPermission();
+  }, []);
 
   const loginWithNewDevice = async () => {
     if (!userInfo || !userInfo.id) {
@@ -25,18 +40,17 @@ const Devices = () => {
       return;
     }
 
+    if (!locationPermissionGranted) {
+      setErrorMessage("Permissão de localização não concedida!");
+      return;
+    }
+
     try {
       const netInfo = await NetInfo.fetch();
       const ipAddress =
         netInfo.details && "ipAddress" in netInfo.details
           ? (netInfo.details.ipAddress as string)
           : undefined;
-
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMessage("Permissão de localização negada!");
-        return;
-      }
 
       const location = await Location.getCurrentPositionAsync({});
       const { latitude, longitude } = location.coords;
@@ -82,7 +96,7 @@ const Devices = () => {
             fontSize: 15,
             fontFamily: "Inter_400Regular",
           }}
-          href="./user/login"
+          href="./"
         >
           Cancelar
         </Link>
