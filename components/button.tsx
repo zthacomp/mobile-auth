@@ -3,8 +3,8 @@ import { Pressable, StyleSheet, Text } from "react-native";
 interface ButtonProps {
   text: string;
   color: string;
-  onPress: () => void;
-  disabled: boolean;
+  onPress?: () => void;
+  disabled?: boolean;
 }
 
 export const ButtonComponent: React.FC<ButtonProps> = ({

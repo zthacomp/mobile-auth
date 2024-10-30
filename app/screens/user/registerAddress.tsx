@@ -82,7 +82,6 @@ const registerAddress = () => {
         <ButtonComponent
           text="CONTINUAR"
           color={Colors.MAIN}
-          link={"./email"}
         />
       </View>
     </View>

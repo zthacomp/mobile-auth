@@ -12,9 +12,21 @@
     "preview": {
       "android": {
         "buildType": "apk"
+<<<<<<< HEAD
       },
       "distribution": "internal",
       "channel": "preview"
+=======
+      }
+    },
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "preview3": {
+      "developmentClient": true
+>>>>>>> 83e2a8c21f277eec72682e3cc1a5f73119325060
     },
     "preview2": {
       "android": {

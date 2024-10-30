@@ -4,13 +4,13 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 
 interface InputProps {
   value: any;
-  onChangeText: (text: string) => void;
+  onChangeText?: (text: string) => void;
   place: string;
   image: React.ReactNode;
   isPassword: boolean;
   height: number;
   width: number;
-  editable: boolean;
+  editable?: boolean;
 }
 
 export const InputComponent: React.FC<InputProps> = ({

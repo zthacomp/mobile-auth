@@ -47,7 +47,6 @@ const password = () => {
         <ButtonComponent
           text="CONTINUAR"
           color={Colors.MAIN}
-          link="../../(tabs)/home"
         />
       </View>
     </View>

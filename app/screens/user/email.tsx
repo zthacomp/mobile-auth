@@ -34,7 +34,6 @@ const email = () => {
         <ButtonComponent
           text="CONTINUAR"
           color={Colors.MAIN}
-          link="./password"
         />
       </View>
     </View>

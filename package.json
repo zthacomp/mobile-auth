@@ -39,6 +39,7 @@
     "expo-web-browser": "~13.0.3",
     "jwt-decode": "^4.0.0",
     "lucide-react-native": "^0.445.0",
+    "mobileauth": "file:",
     "otplib": "^12.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -49,7 +50,8 @@
     "react-native-safe-area-context": "^4.10.5",
     "react-native-screens": "^3.31.1",
     "react-native-web": "~0.19.10",
-    "totp-generator": "^1.0.0"
+    "totp-generator": "^1.0.0",
+    "expo-build-properties": "~0.12.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
