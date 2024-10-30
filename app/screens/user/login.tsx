@@ -1,4 +1,11 @@
-import { Image, KeyboardAvoidingView, Platform, StatusBar, StyleSheet, View } from "react-native";
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  StatusBar,
+  StyleSheet,
+  View,
+} from "react-native";
 import React, { useContext, useState } from "react";
 import { ButtonComponent } from "@/components/button";
 import { Colors } from "@/constants/Colors";
@@ -9,17 +16,30 @@ import { signin } from "@/src/services/userServices";
 import { RotatingLoaderCircle } from "@/assets/loadScreen";
 import { UserContext, UserContextType } from "@/app/context";
 import { ErrorStatus } from "@/components/errorStatus";
+import { getUserTrustedDevices } from "@/src/services/deviceServices";
+import NetInfo from "@react-native-community/netinfo";
 
 interface Data {
   cpf: string;
   password: string;
 }
 
+interface DevicesData {
+  id: string;
+  ip_address: string;
+  location: string;
+  created_at: string;
+  updated_at: string;
+}
+
 const Login = () => {
   const [data, setData] = useState<Data>({ cpf: "", password: "" });
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { setToken } = useContext(UserContext) as UserContextType;
+  const { userInfo, token, setToken } = useContext(
+    UserContext,
+  ) as UserContextType;
+  const [devices, setDevices] = useState<DevicesData[]>([]);
 
   const handleCpfChange = (value: string) => {
     let formattedCpf = value.replace(/\D/g, "");
@@ -32,6 +52,39 @@ const Login = () => {
 
   const removeCpfFormatting = (cpf: string) => {
     return cpf.replace(/\D/g, "");
+  };
+
+  const verifyDevice = async () => {
+    if (!userInfo || !userInfo.id) {
+      setErrorMessage("Usuário não encontrado!");
+      return;
+    }
+
+    if (!token) {
+      setErrorMessage("Token é necessário");
+      return;
+    }
+
+    const response = await getUserTrustedDevices(userInfo.id, token);
+    setDevices(response.data);
+
+    NetInfo.fetch().then((state) => {
+      const ipAddress =
+        state.details && "ipAddress" in state.details
+          ? state.details.ipAddress
+          : undefined;
+      console.log("IP Address:", ipAddress);
+
+      const isDeviceTrusted = devices.some(
+        (device) => device.ip_address === ipAddress,
+      );
+
+      if (isDeviceTrusted) {
+        router.push("/(tabs)/home");
+      } else {
+        router.push("/(tabs)/services/devices");
+      }
+    });
   };
 
   const onLogin = async () => {
@@ -49,7 +102,7 @@ const Login = () => {
       const response = await signin(formattedData);
       setToken(response?.data.accessToken);
 
-      router.push("/(tabs)/home");
+      verifyDevice();
 
       data.cpf = "";
       data.password = "";
@@ -65,10 +118,10 @@ const Login = () => {
   };
 
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
     >
       <StatusBar barStyle="light-content" backgroundColor={Colors.ZINC950} />
       {isLoading ? (

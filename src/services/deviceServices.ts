@@ -1,6 +1,22 @@
 import { api } from "./userServices";
 
-interface DevicesData {}
+interface registerData {
+  ip: string;
+  localization: string;
+}
+
+export const registerDevice = async (
+  userId: string,
+  token: string,
+  data: registerData,
+) => {
+  const response = await api.post(`/api/trusted-devices/${userId}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
 
 export const getUserTrustedDevices = async (userId: string, token: string) => {
   const response = await api.get(`/api/trusted-devices/${userId}`, {
