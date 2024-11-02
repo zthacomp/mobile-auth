@@ -62,7 +62,7 @@ const connectedDevices = () => {
 
   useEffect(() => {
     findDevices();
-  }, [data]);
+  }, []);
 
   return (
     <View style={styles.container}>

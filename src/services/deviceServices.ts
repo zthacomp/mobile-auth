@@ -1,8 +1,8 @@
 import { api } from "./userServices";
 
 interface registerData {
-  ip: string;
-  localization: string;
+  ip_address: string;
+  location: string;
 }
 
 export const registerDevice = async (
@@ -15,6 +15,7 @@ export const registerDevice = async (
       Authorization: `Bearer ${token}`,
     },
   });
+
   return response;
 };
 

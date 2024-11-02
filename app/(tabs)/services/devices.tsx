@@ -61,12 +61,12 @@ const Devices = () => {
       });
       const locationData = reverseGeocode[0];
 
-      const formattedLocation = `${locationData.city}, ${locationData.region}, ${locationData.country}`;
+      const formattedLocation = `${locationData.city}, ${locationData.region}`;
 
       const validIpAddress = ipAddress || "0.0.0.0";
       await registerDevice(userInfo.id, token, {
-        ip: validIpAddress,
-        localization: formattedLocation,
+        ip_address: validIpAddress,
+        location: formattedLocation,
       });
       router.push("/(tabs)/home");
     } catch (error) {
@@ -96,7 +96,7 @@ const Devices = () => {
             fontSize: 15,
             fontFamily: "Inter_400Regular",
           }}
-          href="./"
+          href="/screens/user/login"
         >
           Cancelar
         </Link>

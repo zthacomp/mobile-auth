@@ -6,7 +6,7 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ButtonComponent } from "@/components/button";
 import { Colors } from "@/constants/Colors";
 import { InputComponent } from "@/components/input";
@@ -14,10 +14,11 @@ import { Captions, Lock } from "lucide-react-native";
 import { router } from "expo-router";
 import { signin } from "@/src/services/userServices";
 import { RotatingLoaderCircle } from "@/assets/loadScreen";
-import { UserContext, UserContextType } from "@/app/context";
+import { TokenPayload, UserContext, UserContextType } from "@/app/context";
 import { ErrorStatus } from "@/components/errorStatus";
 import { getUserTrustedDevices } from "@/src/services/deviceServices";
 import NetInfo from "@react-native-community/netinfo";
+import { jwtDecode } from "jwt-decode";
 
 interface Data {
   cpf: string;
@@ -36,10 +37,8 @@ const Login = () => {
   const [data, setData] = useState<Data>({ cpf: "", password: "" });
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { userInfo, token, setToken } = useContext(
-    UserContext,
-  ) as UserContextType;
-  const [devices, setDevices] = useState<DevicesData[]>([]);
+  const { setToken } = useContext(UserContext) as UserContextType;
+  const [registeredDevice, setRegisteredDevice] = useState<Boolean>(false);
 
   const handleCpfChange = (value: string) => {
     let formattedCpf = value.replace(/\D/g, "");
@@ -54,37 +53,22 @@ const Login = () => {
     return cpf.replace(/\D/g, "");
   };
 
-  const verifyDevice = async () => {
-    if (!userInfo || !userInfo.id) {
-      setErrorMessage("Usuário não encontrado!");
-      return;
-    }
+  const verifyDevice = async (decoded: TokenPayload, token: string) => {
+    const response = await getUserTrustedDevices(decoded.id, token);
 
-    if (!token) {
-      setErrorMessage("Token é necessário");
-      return;
-    }
+    // Pegar o IP do dispositivo
+    const netInfo = await NetInfo.fetch();
+    const ipAddress =
+      netInfo.details && "ipAddress" in netInfo.details
+        ? (netInfo.details.ipAddress as string)
+        : undefined;
 
-    const response = await getUserTrustedDevices(userInfo.id, token);
-    setDevices(response.data);
+    const trustedDevice = response.data.some(
+      (device: DevicesData) => device.ip_address === ipAddress,
+    );
 
-    NetInfo.fetch().then((state) => {
-      const ipAddress =
-        state.details && "ipAddress" in state.details
-          ? state.details.ipAddress
-          : undefined;
-      console.log("IP Address:", ipAddress);
-
-      const isDeviceTrusted = devices.some(
-        (device) => device.ip_address === ipAddress,
-      );
-
-      if (isDeviceTrusted) {
-        router.push("/(tabs)/home");
-      } else {
-        router.push("/(tabs)/services/devices");
-      }
-    });
+    if (trustedDevice) setRegisteredDevice(true);
+    else setRegisteredDevice(false);
   };
 
   const onLogin = async () => {
@@ -94,20 +78,32 @@ const Login = () => {
     }
 
     try {
+      // Tela de carregamento
       setIsLoading(true);
+
+      // Formata e envidar dados para o context
       const formattedData = {
         ...data,
         cpf: removeCpfFormatting(data.cpf),
       };
+
       const response = await signin(formattedData);
       setToken(response?.data.accessToken);
 
-      verifyDevice();
+      // Decodificar token para verificar dispositivo
+      const decoded: TokenPayload = jwtDecode(response?.data.accessToken);
 
-      data.cpf = "";
-      data.password = "";
+      await verifyDevice(decoded, response?.data.accessToken);
+
+      if (registeredDevice) {
+        router.push("/(tabs)/home");
+      } else {
+        router.push("/(tabs)/services/devices");
+      }
+
+      setData({ cpf: "", password: "" });
     } catch (error: any) {
-      setErrorMessage(error.response.data.message);
+      setErrorMessage(error.response?.data?.message || "Erro ao fazer login!");
     } finally {
       setIsLoading(false);
     }
@@ -116,6 +112,10 @@ const Login = () => {
   const handleInputChange = (field: keyof Data, value: string) => {
     setData((prevData) => ({ ...prevData, [field]: value }));
   };
+
+  useEffect(() => {
+    setErrorMessage("");
+  }, [data]);
 
   return (
     <KeyboardAvoidingView

@@ -26,7 +26,7 @@ export const UserContext = createContext<UserContextType>({
   logout: () => {},
 });
 
-interface TokenPayload {
+export interface TokenPayload {
   id: string;
   name: string;
   email: string;
