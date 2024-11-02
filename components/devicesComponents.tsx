@@ -60,6 +60,7 @@ export const Devices: React.FC<devicesProps> = ({
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: "row",
     backgroundColor: Colors.ZINC900,
     justifyContent: "center",
     alignItems: "center",
@@ -68,11 +69,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: 300,
   },
-  content: { justifyContent: "center", alignItems: "center" },
+  content: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
   text: {
     color: Colors.ZINC200,
     fontFamily: "Inter_500Medium",
-    padding: 5,
   },
   close: {
     position: "absolute",

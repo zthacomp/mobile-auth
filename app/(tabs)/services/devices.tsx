@@ -9,12 +9,14 @@ import { useContext, useEffect, useState } from "react";
 import * as Location from "expo-location";
 import NetInfo from "@react-native-community/netinfo";
 import { ErrorStatus } from "@/components/errorStatus";
+import { RotatingLoaderCircle } from "@/assets/loadScreen";
 
 const Devices = () => {
   const { userInfo, token } = useContext(UserContext) as UserContextType;
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [locationPermissionGranted, setLocationPermissionGranted] =
     useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -46,6 +48,7 @@ const Devices = () => {
     }
 
     try {
+      setIsLoading(true);
       const netInfo = await NetInfo.fetch();
       const ipAddress =
         netInfo.details && "ipAddress" in netInfo.details
@@ -72,35 +75,43 @@ const Devices = () => {
     } catch (error) {
       setErrorMessage("Erro ao registrar o dispositivo.");
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.innerContainer}>
-        <KeyRound color={Colors.MAIN} size={50} strokeWidth={1} />
-        <Text style={styles.title}>Entrando em um dispositivo novo?</Text>
-        <Text style={styles.text}>
-          Nunca escaneie um QR code de outros usuários
-        </Text>
-        <ButtonComponent
-          text="ENTRAR"
-          color={Colors.MAIN}
-          disabled={false}
-          onPress={loginWithNewDevice}
-        />
-        {errorMessage ? <ErrorStatus text={errorMessage} /> : null}
-        <Link
-          style={{
-            color: Colors.ZINC200,
-            fontSize: 15,
-            fontFamily: "Inter_400Regular",
-          }}
-          href="/screens/user/login"
-        >
-          Cancelar
-        </Link>
-      </View>
+      {isLoading ? (
+        <View style={styles.loaderContainer}>
+          <RotatingLoaderCircle />
+        </View>
+      ) : (
+        <View style={styles.innerContainer}>
+          <KeyRound color={Colors.MAIN} size={50} strokeWidth={1} />
+          <Text style={styles.title}>Entrando em um dispositivo novo?</Text>
+          <Text style={styles.text}>
+            Nunca escaneie um QR code de outros usuários
+          </Text>
+          <ButtonComponent
+            text="ENTRAR"
+            color={Colors.MAIN}
+            disabled={false}
+            onPress={loginWithNewDevice}
+          />
+          {errorMessage ? <ErrorStatus text={errorMessage} /> : null}
+          <Link
+            style={{
+              color: Colors.ZINC200,
+              fontSize: 15,
+              fontFamily: "Inter_400Regular",
+            }}
+            href="/screens/user/login"
+          >
+            Cancelar
+          </Link>
+        </View>
+      )}
     </View>
   );
 };
@@ -128,5 +139,10 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginVertical: 10,
     fontFamily: "Inter_400Regular",
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

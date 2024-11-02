@@ -38,7 +38,6 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { setToken } = useContext(UserContext) as UserContextType;
-  const [registeredDevice, setRegisteredDevice] = useState<Boolean>(false);
 
   const handleCpfChange = (value: string) => {
     let formattedCpf = value.replace(/\D/g, "");
@@ -53,7 +52,10 @@ const Login = () => {
     return cpf.replace(/\D/g, "");
   };
 
-  const verifyDevice = async (decoded: TokenPayload, token: string) => {
+  const verifyDevice = async (
+    decoded: TokenPayload,
+    token: string,
+  ): Promise<boolean> => {
     const response = await getUserTrustedDevices(decoded.id, token);
 
     // Pegar o IP do dispositivo
@@ -63,12 +65,9 @@ const Login = () => {
         ? (netInfo.details.ipAddress as string)
         : undefined;
 
-    const trustedDevice = response.data.some(
+    return response.data.some(
       (device: DevicesData) => device.ip_address === ipAddress,
     );
-
-    if (trustedDevice) setRegisteredDevice(true);
-    else setRegisteredDevice(false);
   };
 
   const onLogin = async () => {
@@ -95,7 +94,12 @@ const Login = () => {
 
       await verifyDevice(decoded, response?.data.accessToken);
 
-      if (registeredDevice) {
+      const isDeviceRegistered = await verifyDevice(
+        decoded,
+        response?.data.accessToken,
+      );
+
+      if (isDeviceRegistered) {
         router.push("/(tabs)/home");
       } else {
         router.push("/(tabs)/services/devices");

@@ -1,19 +1,27 @@
 import { UserContext, UserContextType } from "@/app/context";
 import { UserComponent } from "@/components/userComponent";
 import { Colors } from "@/constants/Colors";
-import { CameraView, CameraType } from "expo-camera";
+import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import { router } from "expo-router";
-import { useContext, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { useState, useEffect, useContext } from "react";
+import { StyleSheet, Text, View, Button } from "react-native";
 
 const QrCode = () => {
   const { setSecret } = useContext(UserContext) as UserContextType;
   const [facing] = useState<CameraType>("back");
+  const [cameraPermission] = useCameraPermissions();
+  const [permissionGranted, setPermissionGranted] = useState(false);
 
   const extractSecretFromUrl = (url: string) => {
     const secretMatch = url.match(/secret=([^&]+)/);
     return secretMatch ? secretMatch[1] : null;
   };
+
+  useEffect(() => {
+    if (cameraPermission?.granted) {
+      setPermissionGranted(true);
+    }
+  }, [cameraPermission]);
 
   return (
     <View style={styles.container}>
@@ -26,24 +34,29 @@ const QrCode = () => {
         </Text>
 
         <View style={styles.container}>
-          <CameraView
-            style={styles.camera}
-            facing={facing}
-            onBarcodeScanned={({ data }: { data: string }) => {
-              const secret = extractSecretFromUrl(data);
-              if (secret) {
-                setSecret(secret);
-                router.push("/(tabs)/services/authentication");
-              } else {
-                console.error("Nenhum secret encontrado no QR code.");
-              }
-            }}
-          ></CameraView>
+          {permissionGranted ? (
+            <CameraView
+              style={styles.camera}
+              facing={facing}
+              onBarcodeScanned={({ data }: { data: string }) => {
+                const secret = extractSecretFromUrl(data);
+                if (secret) {
+                  setSecret(secret);
+                  router.push("/(tabs)/services/authentication");
+                } else {
+                  console.error("Nenhum secret encontrado no QR code.");
+                }
+              }}
+            ></CameraView>
+          ) : (
+            <View style={styles.permissionContainer}>
+              <Text style={styles.text}>
+                Certifique-se de que a permissão para acessar a câmera está
+                habilitada
+              </Text>
+            </View>
+          )}
         </View>
-
-        <Text style={styles.text}>
-          Certifique-se de que a permissão para acessar a câmera está habilitada
-        </Text>
       </View>
     </View>
   );
@@ -80,6 +93,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginVertical: 10,
     fontFamily: "Inter_600SemiBold",
+    textAlign: "center",
+  },
+  permissionContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 20,
   },
   camera: {
     width: 300,

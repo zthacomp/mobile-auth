@@ -55,6 +55,7 @@ const connectedDevices = () => {
     try {
       const response = await deleteTrustedDevice(deviceId, token);
       setData(response.data);
+      findDevices();
     } catch (error: any) {
       setErrorMessage(error.response.data.message);
     }

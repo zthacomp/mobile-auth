@@ -1,5 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Colors } from "@/constants/Colors";
 import { BackButtonComponent } from "@/components/backButton";
 import { ProfileButtonComponent } from "@/components/profileButtonComponent";
@@ -19,7 +26,9 @@ import { ErrorStatus } from "@/components/errorStatus";
 import * as ImagePicker from "expo-image-picker";
 
 const Profile = () => {
-  const { token, setToken, userInfo } = useContext(UserContext) as UserContextType;
+  const { token, setToken, userInfo } = useContext(
+    UserContext,
+  ) as UserContextType;
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -179,8 +188,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.ZINC900,
     borderRadius: 50,
   },
-  pencilIcon: {
-  },
+  pencilIcon: {},
   userName: {
     color: Colors.ZINC200,
     fontSize: 18,

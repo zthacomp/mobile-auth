@@ -2,18 +2,16 @@ import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { SettingsComponent } from "@/components/settingsComponent";
-import { useCameraPermissions } from "expo-camera";
+import { useCameraPermissions, PermissionStatus } from "expo-camera";
 
 const settings = () => {
-  const [cameraPermission, requestCameraPermission, revokeCameraPermission] =
-    useCameraPermissions();
+  const [cameraPermission, requestCameraPermission] = useCameraPermissions();
   const [cameraAccessGranted, setCameraAccessGranted] =
     useState<boolean>(false);
   const [per, setPer] = useState<boolean>(false);
 
   const handleCameraPermission = async () => {
-    if (cameraAccessGranted) {
-      await revokeCameraPermission();
+    if (cameraPermission?.status === PermissionStatus.GRANTED) {
       setCameraAccessGranted(false);
     } else {
       const { granted } = await requestCameraPermission();
@@ -26,7 +24,7 @@ const settings = () => {
   };
 
   useEffect(() => {
-    if (cameraPermission?.granted) {
+    if (cameraPermission?.status === PermissionStatus.GRANTED) {
       setCameraAccessGranted(true);
     } else {
       setCameraAccessGranted(false);

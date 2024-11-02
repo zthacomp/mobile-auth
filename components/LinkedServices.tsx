@@ -36,17 +36,15 @@ export const LinkedServices: React.FC<ServicesProps> = ({
       <View style={styles.textInfo}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.description}>
-          Desde {inscription ? inscription.toString() : "Data de incrição"} até
-          o momento.
-        </Text>
-        <Text style={styles.description}>
-          Último acesso em {access ? access.toString() : "Data de acesso"} às{" "}
-          {time ? time.toString() : "horas de acesso."}h.
-        </Text>
-        <Text style={styles.description}>
           {end
             ? "Serviço encerrado em " + end.toString() + "."
-            : "Serviço ativo."}
+            : ` Desde ${
+                inscription ? inscription.toString() : "Data de incrição"
+              } até
+          o momento. Último acesso em ${
+            access ? access.toString() : "Data de acesso"
+          } às
+          ${time ? time.toString() : "horas de acesso."}h.`}
         </Text>
       </View>
       {!end ? (
@@ -77,7 +75,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   img: {
-    height: 70,
+    height: 55,
     width: 60,
     borderRadius: 15,
     marginTop: "1%",
