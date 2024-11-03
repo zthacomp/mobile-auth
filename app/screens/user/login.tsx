@@ -102,7 +102,7 @@ const Login = () => {
       if (isDeviceRegistered) {
         router.push("/(tabs)/home");
       } else {
-        router.push("/(tabs)/services/devices");
+        router.push("/screens/devices");
       }
 
       setData({ cpf: "", password: "" });

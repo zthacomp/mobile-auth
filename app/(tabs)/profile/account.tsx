@@ -9,6 +9,7 @@ import { SuccessStatus } from "@/components/successMessage";
 import { Colors } from "@/constants/Colors";
 import { updateUserAndPerson } from "@/src/services/userServices";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import { Calendar, Captions, Phone, User, Users } from "lucide-react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import { RotatingLoaderCircle } from "@/assets/loadScreen";
@@ -52,6 +53,8 @@ const Account = () => {
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  dayjs.extend(customParseFormat);
+
   const formatCpf = (value: string) => {
     let formattedCpf = value.replace(/\D/g, "");
     formattedCpf = formattedCpf.replace(/(\d{3})(\d)/, "$1.$2");
@@ -61,17 +64,17 @@ const Account = () => {
   };
 
   const formatPhone = (value: string) => {
-    let formattedPhone = value.replace(/\D/g, ""); // Remove caracteres não numéricos
+    let formattedPhone = value.replace(/\D/g, "");
     if (formattedPhone.length > 10) {
       formattedPhone = formattedPhone.replace(
         /(\d{2})(\d{5})(\d{4})/,
         "($1) $2-$3",
-      ); // Formata para (xx) xxxxx-xxxx
+      );
     } else {
       formattedPhone = formattedPhone.replace(
         /(\d{2})(\d{4})(\d{4})/,
         "($1) $2-$3",
-      ); // Formata para (xx) xxxx-xxxx
+      );
     }
     return formattedPhone;
   };
@@ -92,10 +95,12 @@ const Account = () => {
         email: userInfo?.email || "",
         password: null,
         name: data.name || userInfo?.person.name || "",
-        birth_date: data.birth || userInfo?.person.birth_date || "",
+        birth_date: dayjs(data.birth, "DD/MM/YYYY").format("YYYY-MM-DD") || " ",
         cellphone: data.cellphone || userInfo?.person.cellphone || "",
         gender: data.gender || userInfo?.person.gender || "",
       };
+
+      console.log(updatedData);
 
       setIsLoading(true);
 
@@ -114,8 +119,8 @@ const Account = () => {
 
   const handleDateSelect = (date: Date | undefined) => {
     if (date) {
-      setData({ ...data, birth: dayjs(date).format("YYYY-MM-DD") });
       setSelected(date);
+      setData({ ...data, birth: dayjs(date).format("DD/MM/YYYY") });
     }
     setModalVisible(false);
   };
@@ -227,11 +232,7 @@ const Account = () => {
             />
           </View>
 
-          <Modal
-            transparent={true}
-            visible={isModalVisible}
-            animationType="slide"
-          >
+          {isModalVisible && (
             <DateTimePicker
               value={selected ? selected : new Date()}
               mode="date"
@@ -239,12 +240,10 @@ const Account = () => {
               onChange={(event, date) => {
                 if (event.type === "set" && date) {
                   handleDateSelect(date);
-                } else {
-                  setModalVisible(false);
                 }
               }}
             />
-          </Modal>
+          )}
         </>
       )}
     </View>

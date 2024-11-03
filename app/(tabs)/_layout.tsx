@@ -113,14 +113,6 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="services/devices"
-        options={{
-          tabBarLabel: () => null,
-          tabBarIcon: () => null,
-          tabBarButton: () => null,
-        }}
-      />
-      <Tabs.Screen
         name="profile/account"
         options={{
           tabBarLabel: () => null,

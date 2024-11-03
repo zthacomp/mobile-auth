@@ -53,11 +53,11 @@ const home = () => {
           image={<QrCode color={Colors.MAIN} size={26} strokeWidth={1} />}
           link="./services/qrCode"
         />
-        <ServicesComponent
+        {/* <ServicesComponent
           text="Login com biometria"
           image={<Fingerprint color={Colors.MAIN} size={26} strokeWidth={1} />}
           link="./"
-        />
+        /> */}
       </ScrollView>
     </View>
   );
