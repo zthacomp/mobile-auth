@@ -107,7 +107,7 @@ const Login = () => {
 
       setData({ cpf: "", password: "" });
     } catch (error: any) {
-      setErrorMessage(error.response?.data?.message || "Erro ao fazer login!");
+      setErrorMessage(error.response?.data?.message);
     } finally {
       setIsLoading(false);
     }

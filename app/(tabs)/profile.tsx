@@ -59,6 +59,8 @@ const Profile = () => {
         quality: 0.5,
       });
 
+      console.log(result);
+
       if (!result.canceled) {
         const image = {
           uri: result.assets[0].uri,
@@ -75,8 +77,8 @@ const Profile = () => {
   const update = async (userId: string, token: string, imageFile: any) => {
     try {
       const response = await updateImage(userId, token, imageFile);
+      console.log(response);
       setProfileImage(imageFile.uri);
-      setToken(response?.data.accessToken);
       setSuccessMessage("Imagem atualizada com sucesso!");
     } catch (error: any) {
       setErrorMessage(
@@ -101,9 +103,11 @@ const Profile = () => {
             <TouchableOpacity onPress={pickImage}>
               <Image
                 style={styles.icon}
-                source={{
-                  uri: profileImage || "@/assets/images/Logo.png",
-                }}
+                source={
+                  profileImage
+                    ? { uri: profileImage }
+                    : require("@/assets/images/Logo.png")
+                }
               />
             </TouchableOpacity>
             <View style={styles.pencilButton}>

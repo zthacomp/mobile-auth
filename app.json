@@ -26,7 +26,7 @@
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO",
-        "INTERNET"
+        "android.permission.INTERNET"
       ]
     },
     "web": {
@@ -62,12 +62,9 @@
     "runtimeVersion": {
       "policy": "appVersion"
     },
-    "updates": {
-      "url": "https://u.expo.dev/a7167a08-ae33-4107-b052-0acf52fa08fb"
-    },
     "extra": {
       "eas": {
-        "projectId": "4ff9ea64-a975-4fd3-a1db-187bdff6ac2c"
+        "projectId": "1148c193-dd12-4838-9623-0edef039c428"
       }
     }
   }

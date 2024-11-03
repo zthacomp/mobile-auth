@@ -97,12 +97,19 @@ export const updateImage = async (
   const formData = new FormData();
   formData.append("file", imageFile);
 
-  const response = await api.post(`/api/people/${userId}/upload`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  console.log("Image File:", imageFile);
 
-  return response;
+  try {
+    const response = await api.post(`/api/people/${userId}/upload`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log(response.data);
+    return response;
+  } catch (error: any) {
+    console.error("Erro no upload:", error.response?.data || error.message);
+    throw error;
+  }
 };
