@@ -1,3 +1,4 @@
+import React, { useContext, useEffect, useState } from "react";
 import {
   Image,
   KeyboardAvoidingView,
@@ -5,8 +6,12 @@ import {
   StatusBar,
   StyleSheet,
   View,
+  Alert,
+  Text,
+  Pressable,
 } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import * as LocalAuthentication from "expo-local-authentication";
+import * as SecureStore from "expo-secure-store";
 import { ButtonComponent } from "@/components/button";
 import { Colors } from "@/constants/Colors";
 import { InputComponent } from "@/components/input";
@@ -37,7 +42,22 @@ const Login = () => {
   const [data, setData] = useState<Data>({ cpf: "", password: "" });
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isBiometricSupported, setIsBiometricSupported] =
+    useState<boolean>(false);
   const { setToken } = useContext(UserContext) as UserContextType;
+
+  useEffect(() => {
+    (async () => {
+      const compatible = await LocalAuthentication.hasHardwareAsync();
+      setIsBiometricSupported(compatible);
+
+      // Verifica se a senha está salva
+      const savedPassword = await SecureStore.getItemAsync("userPassword");
+      if (savedPassword) {
+        handleBiometricAuth();
+      }
+    })();
+  }, []);
 
   const handleCpfChange = (value: string) => {
     let formattedCpf = value.replace(/\D/g, "");
@@ -58,13 +78,14 @@ const Login = () => {
   ): Promise<boolean> => {
     const response = await getUserTrustedDevices(decoded.id, token);
 
-    // Pegar o IP do dispositivo
+    // Pega o IP do celular
     const netInfo = await NetInfo.fetch();
     const ipAddress =
       netInfo.details && "ipAddress" in netInfo.details
         ? (netInfo.details.ipAddress as string)
         : undefined;
 
+    // Retorna true se tiver algum ceular com o mesmo IP do celular atual
     return response.data.some(
       (device: DevicesData) => device.ip_address === ipAddress,
     );
@@ -77,22 +98,20 @@ const Login = () => {
     }
 
     try {
-      // Tela de carregamento
+      // Tela de loading
       setIsLoading(true);
 
-      // Formata e envidar dados para o context
       const formattedData = {
         ...data,
         cpf: removeCpfFormatting(data.cpf),
       };
 
+      console.log(formattedData);
+      // Enviar as informações para fazer o login
       const response = await signin(formattedData);
       setToken(response?.data.accessToken);
 
-      // Decodificar token para verificar dispositivo
       const decoded: TokenPayload = jwtDecode(response?.data.accessToken);
-
-      await verifyDevice(decoded, response?.data.accessToken);
 
       const isDeviceRegistered = await verifyDevice(
         decoded,
@@ -105,11 +124,52 @@ const Login = () => {
         router.push("/screens/devices");
       }
 
+      // Salva o CPF e a senha de forma segura após login bem-sucedido
+      await SecureStore.setItemAsync("userPassword", data.password);
+      await SecureStore.setItemAsync("userCpf", removeCpfFormatting(data.cpf));
+
       setData({ cpf: "", password: "" });
     } catch (error: any) {
       setErrorMessage(error.response?.data?.message);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleBiometricAuth = async () => {
+    const { success } = await LocalAuthentication.authenticateAsync({
+      promptMessage: "Autentique-se com sua biometria",
+    });
+
+    if (success) {
+      // Obtém o CPF e a senha salvos e faz login automático
+      const savedPassword = await SecureStore.getItemAsync("userPassword");
+      const savedCpf = await SecureStore.getItemAsync("userCpf");
+
+      if (savedPassword && savedCpf) {
+        const dataBio: Data = {
+          cpf: savedCpf,
+          password: savedPassword,
+        };
+
+        const response = await signin(dataBio);
+        setToken(response?.data.accessToken);
+
+        const decoded: TokenPayload = jwtDecode(response?.data.accessToken);
+
+        const isDeviceRegistered = await verifyDevice(
+          decoded,
+          response?.data.accessToken,
+        );
+
+        if (isDeviceRegistered) {
+          router.push("/(tabs)/home");
+        } else {
+          router.push("/screens/devices");
+        }
+      }
+    } else {
+      Alert.alert("Autenticação falhou", "Por favor, tente novamente.");
     }
   };
 
@@ -168,6 +228,12 @@ const Login = () => {
             onPress={onLogin}
             disabled={isLoading}
           />
+
+          {isBiometricSupported && (
+            <Pressable onPress={handleBiometricAuth}>
+              <Text style={styles.biobutton}>ENTRAR COM BIOMETRIA</Text>
+            </Pressable>
+          )}
         </>
       )}
     </KeyboardAvoidingView>
@@ -200,5 +266,12 @@ const styles = StyleSheet.create({
   },
   link: {
     color: Colors.ZINC200,
+  },
+  biobutton: {
+    margin: 20,
+    color: Colors.ZINC400,
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 10,
+    textDecorationLine: "underline",
   },
 });

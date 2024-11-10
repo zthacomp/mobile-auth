@@ -33,7 +33,9 @@ interface updateUserStatusData {
 }
 
 export const signin = async (data: signinData) => {
+  // console.log("Data em src:", JSON.stringify(data, null, 2));
   const response = await api.post("/api/users/login", data);
+  // console.log("Response backend:", JSON.stringify(response, null, 2));
   return response;
 };
 

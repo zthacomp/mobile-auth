@@ -54,7 +54,8 @@
             "allowBackup": false
           }
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
@@ -64,7 +65,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "1148c193-dd12-4838-9623-0edef039c428"
+        "projectId": "af8cfd69-0ffd-4442-a544-5837326e7d4d"
       }
     }
   }
