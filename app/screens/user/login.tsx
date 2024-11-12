@@ -105,8 +105,6 @@ const Login = () => {
         ...data,
         cpf: removeCpfFormatting(data.cpf),
       };
-
-      console.log(formattedData);
       // Enviar as informações para fazer o login
       const response = await signin(formattedData);
       setToken(response?.data.accessToken);
