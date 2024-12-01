@@ -23,6 +23,8 @@ const settings = () => {
     }
   };
 
+  const notifications = () => {};
+
   useEffect(() => {
     setCameraAccessGranted(
       cameraPermission?.status === PermissionStatus.GRANTED,
@@ -42,6 +44,30 @@ const settings = () => {
             text="Acesso à câmera"
             response={cameraAccessGranted}
             onPress={handleCameraPermission}
+          />
+        </View>
+
+        <Text style={styles.functions}>Notificações</Text>
+        <View style={styles.content}>
+          <SettingsComponent
+            text="Logins realizados"
+            response={cameraAccessGranted}
+            onPress={notifications}
+          />
+          <SettingsComponent
+            text="Serviços vinculados"
+            response={cameraAccessGranted}
+            onPress={notifications}
+          />
+          <SettingsComponent
+            text="Dispositivos conectados"
+            response={cameraAccessGranted}
+            onPress={notifications}
+          />
+          <SettingsComponent
+            text="Atualizações de perfil"
+            response={cameraAccessGranted}
+            onPress={notifications}
           />
         </View>
       </ScrollView>

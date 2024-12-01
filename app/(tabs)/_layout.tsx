@@ -1,7 +1,13 @@
 import React from "react";
 import { Tabs } from "expo-router";
 import { Colors } from "@/constants/Colors";
-import { House, User, LayoutDashboard, Settings2 } from "lucide-react-native";
+import {
+  House,
+  User,
+  LayoutDashboard,
+  Settings2,
+  Bell,
+} from "lucide-react-native";
 import { StyleSheet, View } from "react-native";
 
 export default function TabLayout() {
@@ -70,6 +76,25 @@ export default function TabLayout() {
               ]}
             >
               <LayoutDashboard
+                color={focused ? Colors.MAIN : Colors.ZINC200}
+                strokeWidth={1}
+              />
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="notifications"
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={[
+                styles.iconContainer,
+                { backgroundColor: focused ? Colors.ZINC950 : Colors.ZINC900 },
+              ]}
+            >
+              <Bell
                 color={focused ? Colors.MAIN : Colors.ZINC200}
                 strokeWidth={1}
               />
