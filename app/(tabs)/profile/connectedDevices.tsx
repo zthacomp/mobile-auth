@@ -67,7 +67,9 @@ const connectedDevices = () => {
 
   return (
     <View style={styles.container}>
-      <BackButtonComponent text="Dispositivos conectados" link="../profile" />
+      <View style={styles.backButtonContainer}>
+        <BackButtonComponent text="Dispositivos conectados" link="../profile" />
+      </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.content}>
           {data.length > 0 ? (
@@ -78,7 +80,7 @@ const connectedDevices = () => {
                 ipAddress={device.ip_address}
                 location={device.location}
                 createAt={device.created_at}
-                updateAt={device.updated_at}
+                // updateAt={device.updated_at}
                 onDelete={() => deleteDevice(device.id)}
               />
             ))
@@ -103,12 +105,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.ZINC950,
     flex: 1,
     alignItems: "center",
+    position: "relative",
   },
   content: {
-    marginTop: 120,
-    justifyContent: "center",
+    marginTop: 100,
     alignItems: "center",
-    width: "80%",
+    marginHorizontal: 16,
   },
   message: {
     backgroundColor: Colors.ZINC900,
@@ -122,9 +124,15 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
   },
   scrollContainer: {
-    flex: 1,
+    flexGrow: 1,
     width: "100%",
-    paddingBottom: 100,
-    alignItems: "center",
+    paddingBottom: 70,
+  },
+  backButtonContainer: {
+    position: "absolute",
+    zIndex: 1,
+    backgroundColor: Colors.ZINC950,
+    width: "100%",
+    height: "7%",
   },
 });

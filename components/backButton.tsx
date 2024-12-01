@@ -22,7 +22,7 @@ export const BackButtonComponent: React.FC<buttonProps> = ({ text, link }) => {
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    top: "6%",
+    top: "1%",
     left: "1%",
     paddingTop: 10,
     padding: 10,

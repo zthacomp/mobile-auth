@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     padding: 20,
-    paddingTop: 80,
+    paddingTop: "10%",
   },
   loadingContainer: {
     flex: 1,

@@ -14,15 +14,15 @@ const support = () => {
         />
         <View style={styles.views}>
           <Mail color={Colors.MAIN} />
-          <Text style={styles.text}>E-mail: suporte.link@ztha.com.br</Text>
+          <Text style={styles.text}>suporte.link@ztha.com.br</Text>
         </View>
         <View style={styles.views}>
           <Phone color={Colors.MAIN} />
-          <Text style={styles.text}>Telefone: (75) 9989-6676</Text>
+          <Text style={styles.text}>(75) 9989-6676</Text>
         </View>
         <View style={styles.views}>
           <Phone color={Colors.MAIN} />
-          <Text style={styles.text}>Telefone: (75) 3261-1075</Text>
+          <Text style={styles.text}>(75) 3261-1075</Text>
         </View>
       </View>
     </View>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     width: 200,
   },
   views: {
-    width: "110%",
+    width: "100%",
     alignItems: "center",
     paddingLeft: "10%",
     flexDirection: "row",

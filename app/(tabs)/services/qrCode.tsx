@@ -1,16 +1,17 @@
-import { UserContext, UserContextType } from "@/app/context";
-import { UserComponent } from "@/components/userComponent";
-import { Colors } from "@/constants/Colors";
-import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
-import { router } from "expo-router";
 import { useState, useEffect, useContext } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { UserContext, UserContextType } from "@/app/context";
+import { CameraView, CameraType } from "expo-camera";
+import { router } from "expo-router";
+import { StyleSheet, Text, View, Dimensions, SafeAreaView } from "react-native";
+import { Colors } from "@/constants/Colors";
+import { UserComponent } from "@/components/userComponent";
 
 const QrCode = () => {
-  const { setSecret } = useContext(UserContext) as UserContextType;
+  const { setSecret, cameraPermission } = useContext(
+    UserContext,
+  ) as UserContextType;
   const [facing] = useState<CameraType>("back");
-  const [cameraPermission] = useCameraPermissions();
-  const [permissionGranted, setPermissionGranted] = useState(false);
+  const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
 
   const extractSecretFromUrl = (url: string) => {
     const secretMatch = url.match(/secret=([^&]+)/);
@@ -18,53 +19,66 @@ const QrCode = () => {
   };
 
   useEffect(() => {
-    if (cameraPermission?.granted) {
+    if (cameraPermission) {
       setPermissionGranted(true);
     }
   }, [cameraPermission]);
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.topContainer}>
-        <UserComponent />
-      </View>
-      <View style={styles.innerContainer}>
-        <Text style={styles.text}>
-          Escaneie o QR code para acessar a sua conta em um dos nossos sistemas
-        </Text>
+  const { width, height } = Dimensions.get("window");
+  const cameraWidth = width * 0.9;
+  const safeHeight = height - 100;
+  const cameraHeight = Math.min(cameraWidth * (4 / 3), safeHeight * 0.6);
 
-        <View style={styles.container}>
-          {permissionGranted ? (
-            <CameraView
-              style={styles.camera}
-              facing={facing}
-              onBarcodeScanned={({ data }: { data: string }) => {
-                const secret = extractSecretFromUrl(data);
-                if (secret) {
-                  setSecret(secret);
-                  router.push("/(tabs)/services/authentication");
-                } else {
-                  console.error("Nenhum secret encontrado no QR code.");
-                }
-              }}
-            ></CameraView>
-          ) : (
-            <View style={styles.permissionContainer}>
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <View style={styles.topContainer}>
+          <UserComponent />
+        </View>
+        <View style={styles.innerContainer}>
+          <Text style={styles.text}>
+            Escaneie o QR code para acessar a sua conta em um dos nossos
+            sistemas
+          </Text>
+
+          <View style={styles.container}>
+            {permissionGranted ? (
+              <CameraView
+                style={[
+                  styles.camera,
+                  { width: cameraWidth, height: cameraHeight },
+                ]}
+                facing={facing}
+                onBarcodeScanned={({ data }: { data: string }) => {
+                  const secret = extractSecretFromUrl(data);
+                  if (secret) {
+                    setSecret(secret);
+                    router.push("/(tabs)/services/authentication");
+                  } else {
+                    console.error("Nenhum secret encontrado no QR code.");
+                  }
+                }}
+              />
+            ) : (
               <Text style={styles.text}>
                 Certifique-se de que a permissão para acessar a câmera está
                 habilitada
               </Text>
-            </View>
-          )}
+            )}
+          </View>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default QrCode;
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: Colors.ZINC950,
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.ZINC950,
@@ -74,7 +88,7 @@ const styles = StyleSheet.create({
   topContainer: {
     alignItems: "center",
     justifyContent: "flex-start",
-    marginBottom: "20%",
+    marginBottom: "5%",
   },
   innerContainer: {
     alignItems: "center",
@@ -83,26 +97,12 @@ const styles = StyleSheet.create({
   text: {
     color: Colors.ZINC200,
     fontSize: 15,
-    marginVertical: 10,
+    marginVertical: 20,
     fontFamily: "Inter_400Regular",
     marginHorizontal: "10%",
     textAlign: "center",
   },
-  permissionText: {
-    color: Colors.ZINC200,
-    fontSize: 18,
-    marginVertical: 10,
-    fontFamily: "Inter_600SemiBold",
-    textAlign: "center",
-  },
-  permissionContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 20,
-  },
   camera: {
-    width: 300,
-    height: 300,
     marginVertical: 20,
   },
 });

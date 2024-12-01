@@ -24,6 +24,7 @@ import { ErrorStatus } from "@/components/errorStatus";
 import { getUserTrustedDevices } from "@/src/services/deviceServices";
 import NetInfo from "@react-native-community/netinfo";
 import { jwtDecode } from "jwt-decode";
+import { CpfFormatting, removeCpfFormatting } from "@/util/cpfFormatting";
 
 interface Data {
   cpf: string;
@@ -49,28 +50,20 @@ const Login = () => {
   useEffect(() => {
     (async () => {
       const compatible = await LocalAuthentication.hasHardwareAsync();
-      setIsBiometricSupported(compatible);
+      const enrolled = await LocalAuthentication.isEnrolledAsync();
+
+      // Habilita biometria somente se o dispositivo for compatível e houver biometria cadastrada
+      setIsBiometricSupported(compatible && enrolled);
 
       // Verifica se a senha está salva
-      const savedPassword = await SecureStore.getItemAsync("userPassword");
-      if (savedPassword) {
-        handleBiometricAuth();
+      if (compatible && enrolled) {
+        const savedPassword = await SecureStore.getItemAsync("userPassword");
+        if (savedPassword) {
+          handleBiometricAuth();
+        }
       }
     })();
   }, []);
-
-  const handleCpfChange = (value: string) => {
-    let formattedCpf = value.replace(/\D/g, "");
-    formattedCpf = formattedCpf.replace(/(\d{3})(\d)/, "$1.$2");
-    formattedCpf = formattedCpf.replace(/(\d{3})(\d)/, "$1.$2");
-    formattedCpf = formattedCpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-
-    setData((prevData) => ({ ...prevData, cpf: formattedCpf }));
-  };
-
-  const removeCpfFormatting = (cpf: string) => {
-    return cpf.replace(/\D/g, "");
-  };
 
   const verifyDevice = async (
     decoded: TokenPayload,
@@ -85,7 +78,7 @@ const Login = () => {
         ? (netInfo.details.ipAddress as string)
         : undefined;
 
-    // Retorna true se tiver algum ceular com o mesmo IP do celular atual
+    // Retorna true se tiver algum celular com o mesmo IP do celular atual
     return response.data.some(
       (device: DevicesData) => device.ip_address === ipAddress,
     );
@@ -101,10 +94,7 @@ const Login = () => {
       // Tela de loading
       setIsLoading(true);
 
-      const formattedData = {
-        ...data,
-        cpf: removeCpfFormatting(data.cpf),
-      };
+      const formattedData = { ...data, cpf: removeCpfFormatting(data.cpf) };
       // Enviar as informações para fazer o login
       const response = await signin(formattedData);
       setToken(response?.data.accessToken);
@@ -199,7 +189,9 @@ const Login = () => {
           {errorMessage ? <ErrorStatus text={errorMessage} /> : null}
           <InputComponent
             value={data.cpf}
-            onChangeText={handleCpfChange}
+            onChangeText={(value) =>
+              handleInputChange("cpf", CpfFormatting(value))
+            }
             place="CPF"
             image={
               <Captions color={Colors.ZINC200} size="20" strokeWidth={1} />
@@ -227,11 +219,11 @@ const Login = () => {
             disabled={isLoading}
           />
 
-          {isBiometricSupported && (
+          {isBiometricSupported ? (
             <Pressable onPress={handleBiometricAuth}>
-              <Text style={styles.biobutton}>ENTRAR COM BIOMETRIA</Text>
+              <Text style={styles.biobutton}>ENTRAR COM A BIOMETRIA</Text>
             </Pressable>
-          )}
+          ) : null}
         </>
       )}
     </KeyboardAvoidingView>

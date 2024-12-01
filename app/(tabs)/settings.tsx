@@ -1,33 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { ScrollView, StyleSheet, Text, View, Alert } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { SettingsComponent } from "@/components/settingsComponent";
 import { useCameraPermissions, PermissionStatus } from "expo-camera";
+import { UserContext, UserContextType } from "../context";
 
 const settings = () => {
+  const { setCameraPermission } = useContext(UserContext) as UserContextType;
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
   const [cameraAccessGranted, setCameraAccessGranted] =
     useState<boolean>(false);
-  const [per, setPer] = useState<boolean>(false);
 
   const handleCameraPermission = async () => {
     if (cameraPermission?.status === PermissionStatus.GRANTED) {
-      setCameraAccessGranted(false);
+      Alert.alert(
+        "Permissão já concedida",
+        "Para revogar o acesso, altere as permissões nas configurações do sistema.",
+      );
     } else {
       const { granted } = await requestCameraPermission();
       setCameraAccessGranted(granted);
     }
   };
 
-  const ok = () => {
-    setPer(!per);
-  };
-
   useEffect(() => {
-    if (cameraPermission?.status === PermissionStatus.GRANTED) {
-      setCameraAccessGranted(true);
-    } else {
-      setCameraAccessGranted(false);
+    setCameraAccessGranted(
+      cameraPermission?.status === PermissionStatus.GRANTED,
+    );
+    if (cameraPermission) {
+      setCameraPermission(true);
     }
   }, [cameraPermission]);
 
@@ -41,35 +42,6 @@ const settings = () => {
             text="Acesso à câmera"
             response={cameraAccessGranted}
             onPress={handleCameraPermission}
-          />
-
-          <SettingsComponent
-            text="Acesso ao app por biometria"
-            response={cameraAccessGranted}
-            onPress={ok}
-          />
-        </View>
-        <Text style={styles.functions}>Notificações</Text>
-        <View style={styles.content}>
-          <SettingsComponent
-            text="Logins realizados"
-            response={cameraAccessGranted}
-            onPress={ok}
-          />
-          <SettingsComponent
-            text="Serviços vinculados"
-            response={cameraAccessGranted}
-            onPress={ok}
-          />
-          <SettingsComponent
-            text="Dispositivos conectados"
-            response={cameraAccessGranted}
-            onPress={ok}
-          />
-          <SettingsComponent
-            text="Atualizações de perfil"
-            response={cameraAccessGranted}
-            onPress={ok}
           />
         </View>
       </ScrollView>

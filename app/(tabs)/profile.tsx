@@ -26,9 +26,7 @@ import { ErrorStatus } from "@/components/errorStatus";
 import * as ImagePicker from "expo-image-picker";
 
 const Profile = () => {
-  const { token, setToken, userInfo } = useContext(
-    UserContext,
-  ) as UserContextType;
+  const { token, userInfo } = useContext(UserContext) as UserContextType;
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -58,13 +56,10 @@ const Profile = () => {
         aspect: [1, 1],
         quality: 0.5,
       });
-
-      console.log(result);
-
       if (!result.canceled) {
         const image = {
           uri: result.assets[0].uri,
-          type: result.assets[0].type || "image/jpeg",
+          type: "image/jpeg",
           name: `profile_${userInfo.id}.jpeg`,
         };
         await update(userInfo.id, token, image);
@@ -76,8 +71,7 @@ const Profile = () => {
 
   const update = async (userId: string, token: string, imageFile: any) => {
     try {
-      const response = await updateImage(userId, token, imageFile);
-      console.log(response);
+      await updateImage(userId, token, imageFile);
       setProfileImage(imageFile.uri);
       setSuccessMessage("Imagem atualizada com sucesso!");
     } catch (error: any) {
@@ -171,7 +165,7 @@ const styles = StyleSheet.create({
   user: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop: "55%",
+    marginTop: "35%",
     marginBottom: 20,
   },
   imageContainer: {

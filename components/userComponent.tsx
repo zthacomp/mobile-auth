@@ -6,11 +6,14 @@ import { Image, StyleSheet, Text, View } from "react-native";
 export const UserComponent = () => {
   const { userInfo } = useContext(UserContext) as UserContextType;
 
+  const [firstName, secondName] = userInfo?.person.name?.split(" ") || [];
+  const displayName = `${firstName || "Usuário"} ${secondName || ""}`.trim();
+
   return (
     <View style={styles.header}>
       <View>
         <Text style={styles.greeting}>Olá,</Text>
-        <Text style={styles.name}>{userInfo?.person.name}</Text>
+        <Text style={styles.name}>{displayName}</Text>
       </View>
       <Image
         style={styles.icon}

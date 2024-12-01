@@ -14,6 +14,8 @@ export interface UserContextType {
   userInfo: TokenPayload | null;
   secret: string | undefined;
   setSecret: Dispatch<SetStateAction<string | undefined>>;
+  cameraPermission: boolean;
+  setCameraPermission: Dispatch<SetStateAction<boolean>>;
   logout: () => void;
 }
 
@@ -23,6 +25,8 @@ export const UserContext = createContext<UserContextType>({
   userInfo: null,
   secret: undefined,
   setSecret: () => {},
+  cameraPermission: false,
+  setCameraPermission: () => {},
   logout: () => {},
 });
 
@@ -54,6 +58,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | undefined>(undefined);
   const [userInfo, setUserInfo] = useState<TokenPayload | null>(null);
   const [secret, setSecret] = useState<string | undefined>(undefined);
+  const [cameraPermission, setCameraPermission] = useState<boolean>(false);
 
   useEffect(() => {
     if (token) {
@@ -76,7 +81,16 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ token, setToken, userInfo, secret, setSecret, logout }}
+      value={{
+        token,
+        setToken,
+        userInfo,
+        secret,
+        setSecret,
+        logout,
+        cameraPermission,
+        setCameraPermission,
+      }}
     >
       {children}
     </UserContext.Provider>

@@ -2,7 +2,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 
 export const api = axios.create({
-  baseURL: "https://172.16.251.130:3333",
+  baseURL: "http://172.16.251.130:3333",
   withCredentials: true,
 });
 
@@ -33,9 +33,7 @@ interface updateUserStatusData {
 }
 
 export const signin = async (data: signinData) => {
-  console.log("Data em src:", JSON.stringify(data, null, 2));
   const response = await api.post("/api/users/login", data);
-  console.log("Response backend:", JSON.stringify(response, null, 2));
   return response;
 };
 
@@ -99,8 +97,6 @@ export const updateImage = async (
   const formData = new FormData();
   formData.append("file", imageFile);
 
-  console.log("Image File:", imageFile);
-
   try {
     const response = await api.post(`/api/people/${userId}/upload`, formData, {
       headers: {
@@ -108,7 +104,6 @@ export const updateImage = async (
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log(response.data);
     return response;
   } catch (error: any) {
     console.error("Erro no upload:", error.response?.data || error.message);

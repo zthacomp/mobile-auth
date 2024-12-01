@@ -14,7 +14,7 @@ export default function TabLayout() {
           backgroundColor: Colors.ZINC900,
           borderTopLeftRadius: 15,
           borderTopRightRadius: 15,
-          height: 70,
+          height: 60,
           borderColor: Colors.ZINC900,
         },
         tabBarHideOnKeyboard: true,
@@ -99,57 +99,43 @@ export default function TabLayout() {
       <Tabs.Screen
         name="services/authentication"
         options={{
-          tabBarLabel: () => null,
-          tabBarIcon: () => null,
-          tabBarButton: () => null,
+          href: null,
         }}
       />
       <Tabs.Screen
         name="services/qrCode"
         options={{
-          tabBarLabel: () => null,
-          tabBarIcon: () => null,
-          tabBarButton: () => null,
+          href: null,
         }}
       />
       <Tabs.Screen
         name="profile/account"
         options={{
-          tabBarLabel: () => null,
-          tabBarIcon: () => null,
-          tabBarButton: () => null,
+          href: null,
         }}
       />
       <Tabs.Screen
         name="profile/address"
         options={{
-          tabBarLabel: () => null,
-          tabBarIcon: () => null,
-          tabBarButton: () => null,
+          href: null,
         }}
       />
       <Tabs.Screen
         name="profile/privacy"
         options={{
-          tabBarLabel: () => null,
-          tabBarIcon: () => null,
-          tabBarButton: () => null,
+          href: null,
         }}
       />
       <Tabs.Screen
         name="profile/support"
         options={{
-          tabBarLabel: () => null,
-          tabBarIcon: () => null,
-          tabBarButton: () => null,
+          href: null,
         }}
       />
       <Tabs.Screen
         name="profile/connectedDevices"
         options={{
-          tabBarLabel: () => null,
-          tabBarIcon: () => null,
-          tabBarButton: () => null,
+          href: null,
         }}
       />
     </Tabs>
@@ -160,5 +146,7 @@ const styles = StyleSheet.create({
   iconContainer: {
     padding: 10,
     borderRadius: 15,
+    alignItems: "center",
+    marginTop: 20,
   },
 });

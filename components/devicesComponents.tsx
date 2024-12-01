@@ -10,7 +10,7 @@ interface devicesProps {
   ipAddress: string;
   location: string;
   createAt: string;
-  updateAt: string;
+  // updateAt: string;
   onDelete: () => void;
 }
 
@@ -19,7 +19,7 @@ export const Devices: React.FC<devicesProps> = ({
   ipAddress,
   location,
   createAt,
-  updateAt,
+  // updateAt,
   onDelete,
 }) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -31,20 +31,25 @@ export const Devices: React.FC<devicesProps> = ({
 
   return (
     <View style={styles.container}>
-      <Smartphone color={Colors.MAIN} />
+      <Smartphone color={Colors.MAIN} size={44} strokeWidth={1.25} />
       <View style={styles.content}>
-        <Text style={styles.text}>IP: {ipAddress}</Text>
-        <Text style={styles.text}>Localização: {location}</Text>
-        <Text style={styles.text}>
-          Criado: {format(new Date(createAt), "dd/MM/yyyy")}
-        </Text>
-        <Text style={styles.text}>
+        <View style={styles.decicesInfo}>
+          <Text style={styles.text}>{location}</Text>
+          <Pressable style={styles.close} onPress={() => setModalVisible(true)}>
+            <X color={Colors.ZINC400} size={20} />
+          </Pressable>
+        </View>
+
+        <View style={styles.decicesInfo}>
+          <Text style={styles.text}>{ipAddress}</Text>
+          <Text style={styles.text}>
+            {format(new Date(createAt), "dd/MM/yyyy")}
+          </Text>
+          {/* <Text style={styles.text}>
           Atualizado: {format(new Date(updateAt), "dd/MM/yyyy")}
-        </Text>
+        </Text> */}
+        </View>
       </View>
-      <Pressable style={styles.close} onPress={() => setModalVisible(true)}>
-        <X color={Colors.ZINC400} size={18} />
-      </Pressable>
 
       <CloseModal
         id={id}
@@ -60,27 +65,33 @@ export const Devices: React.FC<devicesProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
     backgroundColor: Colors.ZINC900,
-    justifyContent: "center",
-    alignItems: "center",
     borderRadius: 10,
-    padding: 10,
+    padding: 20,
     marginTop: 10,
-    width: 300,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
   },
   content: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 20,
+    display: "flex",
+    gap: 4,
+    marginVertical: 6,
+    justifyContent: "flex-start",
   },
   text: {
-    color: Colors.ZINC200,
+    color: Colors.ZINC400,
     fontFamily: "Inter_500Medium",
   },
-  close: {
-    position: "absolute",
-    top: 10,
-    right: 10,
+  close: {},
+  decicesInfo: {
+    display: "flex",
+    paddingLeft: 10,
+    paddingRight: 0,
+    gap: 64,
+    flex: 1,
+    justifyContent: "space-between",
+    flexDirection: "row",
   },
 });

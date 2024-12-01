@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Modal, StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { Modal, StyleSheet, View, TouchableOpacity } from "react-native";
 import { UserContext, UserContextType } from "@/app/context";
 import { BackButtonComponent } from "@/components/backButton";
 import { ButtonComponent } from "@/components/button";
@@ -14,6 +14,7 @@ import { Calendar, Captions, Phone, User, Users } from "lucide-react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import { RotatingLoaderCircle } from "@/assets/loadScreen";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { CpfFormatting } from "@/util/cpfFormatting";
 
 interface Data {
   name: string;
@@ -55,14 +56,6 @@ const Account = () => {
 
   dayjs.extend(customParseFormat);
 
-  const formatCpf = (value: string) => {
-    let formattedCpf = value.replace(/\D/g, "");
-    formattedCpf = formattedCpf.replace(/(\d{3})(\d)/, "$1.$2");
-    formattedCpf = formattedCpf.replace(/(\d{3})(\d)/, "$1.$2");
-    formattedCpf = formattedCpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-    return formattedCpf;
-  };
-
   const formatPhone = (value: string) => {
     let formattedPhone = value.replace(/\D/g, "");
     if (formattedPhone.length > 10) {
@@ -99,9 +92,6 @@ const Account = () => {
         cellphone: data.cellphone || userInfo?.person.cellphone || "",
         gender: data.gender || userInfo?.person.gender || "",
       };
-
-      console.log(updatedData);
-
       setIsLoading(true);
 
       await updateUserAndPerson(updatedData, userInfo.id, token);
@@ -129,7 +119,7 @@ const Account = () => {
     if (userInfo) {
       setData({
         name: userInfo.person.name || "",
-        cpf: formatCpf(userInfo.cpf || ""),
+        cpf: CpfFormatting(userInfo.cpf || ""),
         birth: userInfo.person.birth_date
           ? dayjs(userInfo.person.birth_date).format("DD/MM/YYYY")
           : "",
@@ -137,6 +127,9 @@ const Account = () => {
         gender: userInfo.person.gender || "",
       });
     }
+
+    setErrorMessage("");
+    setSucessMessage("");
   }, [userInfo]);
 
   return (
@@ -259,7 +252,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   content: {
-    marginTop: 120,
+    marginTop: "20%",
   },
   modalContainer: {
     flex: 1,

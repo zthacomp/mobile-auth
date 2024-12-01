@@ -1,15 +1,27 @@
-import React, { useContext, useEffect, useState } from "react"; // Add React import
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext, UserContextType } from "@/app/context";
 import { UserComponent } from "@/components/userComponent";
 import { Colors } from "@/constants/Colors";
 import { Copy } from "lucide-react-native";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
+import * as SecureStore from "expo-secure-store";
+import * as Clipboard from "expo-clipboard";
 import { TOTP } from "totp-generator";
 import { Link } from "expo-router";
 
 const Authentication = () => {
-  const { secret } = useContext(UserContext) as UserContextType;
+  const { secret: contextSecret } = useContext(UserContext) as UserContextType;
+  const [secret, setSecret] = useState<string | null>(null);
   const [token, setToken] = useState("");
+
+  const saveSecret = async (secretValue: string) => {
+    await SecureStore.setItemAsync("user_secret", secretValue);
+  };
+
+  const loadSecret = async () => {
+    const storedSecret = await SecureStore.getItemAsync("user_secret");
+    setSecret(storedSecret);
+  };
 
   const updateCode = () => {
     if (secret) {
@@ -17,6 +29,23 @@ const Authentication = () => {
       setToken(otp);
     }
   };
+
+  const copyToClipboard = async () => {
+    if (token) {
+      await Clipboard.setStringAsync(token);
+    }
+  };
+
+  useEffect(() => {
+    loadSecret();
+  }, []);
+
+  useEffect(() => {
+    if (contextSecret && !secret) {
+      setSecret(contextSecret);
+      saveSecret(contextSecret);
+    }
+  }, [contextSecret]);
 
   useEffect(() => {
     updateCode();
@@ -52,9 +81,13 @@ const Authentication = () => {
               >
                 {token}
               </Text>
-              <Copy color={Colors.MAIN} size={35} strokeWidth={1} />
+              <Pressable onPress={copyToClipboard}>
+                <Copy color={Colors.MAIN} size={35} strokeWidth={1} />
+              </Pressable>
             </View>
-            {/* <Text style={styles.text}>Tempo restante {timeLeft}s</Text> */}
+            <Link href="/(tabs)/services/qrCode" style={styles.subText}>
+              Clique aqui e escaneie o QR code novamente
+            </Link>
           </>
         )}
       </View>
@@ -77,6 +110,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    marginTop: "-15%",
   },
   code: {
     backgroundColor: Colors.ZINC900,
@@ -86,7 +120,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     width: "90%",
-    height: "15%",
   },
   text: {
     color: Colors.ZINC200,
