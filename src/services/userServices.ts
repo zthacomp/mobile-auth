@@ -76,19 +76,6 @@ export const getServiceUsers = async (userId: string, token: string) => {
   return response;
 };
 
-export const generate2FAHandler = (userId: string, token: string) => {
-  const response = api.post(
-    `/api/users/2fa/generate`,
-    { user_id: userId },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-  return response;
-};
-
 export const updateImage = async (
   userId: string,
   token: string,

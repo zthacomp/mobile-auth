@@ -156,8 +156,6 @@ const Login = () => {
           router.push("/screens/devices");
         }
       }
-    } else {
-      Alert.alert("Autenticação falhou", "Por favor, tente novamente.");
     }
   };
 

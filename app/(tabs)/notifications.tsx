@@ -1,36 +1,66 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { NotificationComponent } from "@/components/notificationComponent";
+import { getUserNotifications } from "@/src/services/notificationServices";
+import { useContext, useEffect, useState } from "react";
+import { UserContext, UserContextType } from "../context";
+
+interface notificationsData {
+  id: string;
+  created_at: string;
+  is_read: boolean;
+  message: string;
+  title: string;
+  updated_at: Date;
+  user_id: string;
+}
 
 const Notifications = () => {
+  const { userInfo, token } = useContext(UserContext) as UserContextType;
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [data, setData] = useState<notificationsData[]>([]);
+
+  const getNotifications = async () => {
+    if (!userInfo || !userInfo.id) {
+      setErrorMessage("Usuário não encontrado!");
+      return;
+    }
+
+    if (!token) {
+      setErrorMessage("Token é necessário");
+      return;
+    }
+    try {
+      const response = await getUserNotifications(userInfo?.id, token);
+      setData(response.data);
+    } catch (error: any) {
+      setErrorMessage(error.response.data.message);
+    }
+  };
+
+  useEffect(() => {
+    getNotifications();
+  }, [data]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Notificações</Text>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <NotificationComponent
-          action="Login realiados"
-          description="Um login foi realizado em 01/12/2024"
-        />
-        <NotificationComponent
-          action="Login realiados"
-          description="Um login foi realizado em 01/12/2024"
-        />
-        <NotificationComponent
-          action="Login realiados"
-          description="Um login foi realizado em 01/12/2024"
-        />
-        <NotificationComponent
-          action="Login realiados"
-          description="Um login foi realizado em 01/12/2024"
-        />
-        <NotificationComponent
-          action="Login realiados"
-          description="Um login foi realizado em 01/12/2024"
-        />
-        <NotificationComponent
-          action="Login realiados"
-          description="Um login foi realizado em 01/12/2024"
-        />
+        {data.length > 0 ? (
+          data.map((notification: notificationsData, index) => (
+            <NotificationComponent
+              key={notification.id}
+              action={notification.title}
+              description={notification.message}
+              is_read={notification.is_read}
+              time={notification.created_at}
+              id={notification.id}
+              token={token ?? ""}
+            />
+          ))
+        ) : (
+          <View></View>
+        )}
       </ScrollView>
     </View>
   );
