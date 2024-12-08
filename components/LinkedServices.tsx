@@ -30,26 +30,28 @@ export const LinkedServices: React.FC<ServicesProps> = ({
     onDisconnect();
     setModalVisible(false);
   };
+
   return (
     <View style={styles.container}>
       <Image style={styles.img} source={image} />
       <View style={styles.textInfo}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.description}>
-          {end
-            ? "Serviço encerrado em " + end.toString() + "."
-            : ` Desde ${
+          {end == "31/12/1969"
+            ? `Desde ${
                 inscription ? inscription.toString() : "Data de incrição"
-              } até
-          o momento. Último acesso em ${
-            access ? access.toString() : "Data de acesso"
-          } às
-          ${time ? time.toString() : "horas de acesso."}h.`}
+              } até o momento.`
+            : `Serviço encerrado em ${end.toString()}.`}
+        </Text>
+        <Text style={styles.description}>
+          {end == "31/12/1969"
+            ? `Último acesso em ${time ? time.toString() : "Data de acesso."}h.`
+            : null}
         </Text>
       </View>
-      {!end ? (
-        <Pressable onPress={() => setModalVisible(true)}>
-          <X color={Colors.ZINC400} size={18} />
+      {end == "31/12/1969" ? (
+        <Pressable style={styles.close} onPress={() => setModalVisible(true)}>
+          <X color={Colors.ZINC400} size={23} />
         </Pressable>
       ) : null}
 
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   img: {
-    height: 55,
+    height: 50,
     width: 60,
     borderRadius: 15,
     marginTop: "1%",
@@ -93,5 +95,10 @@ const styles = StyleSheet.create({
     color: Colors.ZINC400,
     fontFamily: "Inter_400Regular",
     fontSize: 11,
+    width: "100%",
+  },
+  close: {
+    paddingTop: 2,
+    paddingLeft: 25,
   },
 });

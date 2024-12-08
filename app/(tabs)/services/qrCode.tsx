@@ -7,9 +7,7 @@ import { Colors } from "@/constants/Colors";
 import { UserComponent } from "@/components/userComponent";
 
 const QrCode = () => {
-  const { setSecret, cameraPermission } = useContext(
-    UserContext,
-  ) as UserContextType;
+  const { cameraPermission } = useContext(UserContext) as UserContextType;
   const [facing] = useState<CameraType>("back");
   const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
 
@@ -52,8 +50,7 @@ const QrCode = () => {
                 onBarcodeScanned={({ data }: { data: string }) => {
                   const secret = extractSecretFromUrl(data);
                   if (secret) {
-                    setSecret(secret);
-                    router.push("/(tabs)/services/authentication");
+                    router.push("/(tabs)/services/authenticatorServices");
                   } else {
                     console.error("Nenhum secret encontrado no QR code.");
                   }

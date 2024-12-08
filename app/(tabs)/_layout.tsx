@@ -128,6 +128,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="services/authenticatorServices"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
         name="services/qrCode"
         options={{
           href: null,

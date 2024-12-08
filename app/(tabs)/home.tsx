@@ -42,11 +42,11 @@ const home = () => {
         </View> */}
         <Text style={styles.text}>Serviços</Text>
         <ServicesComponent
-          text="Código de autenticação"
+          text="Códigos de autenticação"
           image={
             <RectangleEllipsis color={Colors.MAIN} size={26} strokeWidth={1} />
           }
-          link="./services/authentication"
+          link="./services/authenticatorServices"
         />
         <ServicesComponent
           text="Login sem senha (QR code)"

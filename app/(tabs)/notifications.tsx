@@ -59,7 +59,11 @@ const Notifications = () => {
             />
           ))
         ) : (
-          <View></View>
+          <View style={styles.message}>
+            <Text style={styles.subTitle}>
+              Você não tem nenhuma notificação
+            </Text>
+          </View>
         )}
       </ScrollView>
     </View>
@@ -84,5 +88,16 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_700Bold",
     paddingTop: "15%",
     paddingBottom: "5%",
+  },
+  message: {
+    backgroundColor: Colors.ZINC900,
+    borderRadius: 10,
+  },
+  subTitle: {
+    textAlign: "center",
+    color: Colors.ZINC200,
+    fontSize: 15,
+    padding: 10,
+    fontFamily: "Inter_500Medium",
   },
 });

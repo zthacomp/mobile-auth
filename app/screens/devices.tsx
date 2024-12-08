@@ -90,8 +90,11 @@ const Devices = () => {
         <View style={styles.innerContainer}>
           <KeyRound color={Colors.MAIN} size={50} strokeWidth={1} />
           <Text style={styles.title}>Entrando em um dispositivo novo?</Text>
-          <Text style={styles.text}>
+          {/* <Text style={styles.text}>
             Nunca escaneie um QR code de outros usuários
+          </Text> */}
+          <Text style={styles.text}>
+            Lembre de habilitar a permissão de localização
           </Text>
           <ButtonComponent
             text="ENTRAR"
@@ -105,6 +108,7 @@ const Devices = () => {
               color: Colors.ZINC200,
               fontSize: 15,
               fontFamily: "Inter_400Regular",
+              marginBottom: 20,
             }}
             href="/screens/user/login"
           >
@@ -139,6 +143,12 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginVertical: 10,
     fontFamily: "Inter_400Regular",
+  },
+  message: {
+    color: Colors.ZINC500,
+    fontSize: 13,
+    fontFamily: "Inter_400Regular",
+    marginVertical: 10,
   },
   loaderContainer: {
     flex: 1,
