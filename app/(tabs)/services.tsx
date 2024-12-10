@@ -39,6 +39,7 @@ const services = () => {
       setErrorMessage(error.response.data.message);
     }
   };
+
   const disconnectService = async (serviceId: string) => {
     if (!userInfo || !userInfo.id) {
       setErrorMessage("Usuário não encontrado!");

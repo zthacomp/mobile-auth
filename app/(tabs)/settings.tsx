@@ -8,8 +8,7 @@ import { UserContext, UserContextType } from "../context";
 const settings = () => {
   const { setCameraPermission } = useContext(UserContext) as UserContextType;
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
-  const [cameraAccessGranted, setCameraAccessGranted] =
-    useState<boolean>(false);
+  const [cameraAccessGranted, setCameraAccessGranted] = useState<boolean>(true);
 
   const handleCameraPermission = async () => {
     if (cameraPermission?.status === PermissionStatus.GRANTED) {
@@ -22,6 +21,8 @@ const settings = () => {
       setCameraAccessGranted(granted);
     }
   };
+
+  const notifications = () => {};
 
   useEffect(() => {
     setCameraAccessGranted(
@@ -44,6 +45,30 @@ const settings = () => {
             onPress={handleCameraPermission}
           />
         </View>
+
+        {/* <Text style={styles.functions}>Notificações</Text>
+        <View style={styles.content}>
+          <SettingsComponent
+            text="Logins realizados"
+            response={cameraAccessGranted}
+            onPress={notifications}
+          />
+          <SettingsComponent
+            text="Serviços vinculados"
+            response={cameraAccessGranted}
+            onPress={notifications}
+          />
+          <SettingsComponent
+            text="Dispositivos conectados"
+            response={cameraAccessGranted}
+            onPress={notifications}
+          />
+          <SettingsComponent
+            text="Atualizações de perfil"
+            response={cameraAccessGranted}
+            onPress={notifications}
+          />
+        </View> */}
       </ScrollView>
     </View>
   );

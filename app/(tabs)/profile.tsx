@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   user: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop: "35%",
+    marginTop: "40%",
     marginBottom: 20,
   },
   imageContainer: {

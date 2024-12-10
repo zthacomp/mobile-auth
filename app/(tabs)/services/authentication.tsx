@@ -1,27 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
-import { UserContext, UserContextType } from "@/app/context";
+import React, { useEffect, useState } from "react";
 import { UserComponent } from "@/components/userComponent";
 import { Colors } from "@/constants/Colors";
 import { Copy } from "lucide-react-native";
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import * as SecureStore from "expo-secure-store";
 import * as Clipboard from "expo-clipboard";
 import { TOTP } from "totp-generator";
 import { Link } from "expo-router";
+import { useRoute } from "@react-navigation/native";
 
 const Authentication = () => {
-  const { secret: contextSecret } = useContext(UserContext) as UserContextType;
-  const [secret, setSecret] = useState<string | null>(null);
   const [token, setToken] = useState("");
 
-  const saveSecret = async (secretValue: string) => {
-    await SecureStore.setItemAsync("user_secret", secretValue);
-  };
+  const router = useRoute();
 
-  const loadSecret = async () => {
-    const storedSecret = await SecureStore.getItemAsync("user_secret");
-    setSecret(storedSecret);
-  };
+  const { secret } = router.params as { secret: string };
 
   const updateCode = () => {
     if (secret) {
@@ -35,17 +27,6 @@ const Authentication = () => {
       await Clipboard.setStringAsync(token);
     }
   };
-
-  useEffect(() => {
-    loadSecret();
-  }, []);
-
-  useEffect(() => {
-    if (contextSecret && !secret) {
-      setSecret(contextSecret);
-      saveSecret(contextSecret);
-    }
-  }, [contextSecret]);
 
   useEffect(() => {
     updateCode();

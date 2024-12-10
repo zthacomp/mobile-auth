@@ -16,3 +16,20 @@ export const disconnectUserService = async (
   });
   return response;
 };
+
+export const getServiceUsersInfo = async (
+  userId: string,
+  serviceId: string,
+  token: string,
+) => {
+  const response = await api.post(
+    `/api/services/user/service`,
+    { user_id: userId, service_id: serviceId },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response;
+};
