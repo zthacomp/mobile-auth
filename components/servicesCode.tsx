@@ -38,6 +38,7 @@ export const ServicesCode: React.FC<servicesProps> = ({
         <Text style={styles.description}>
           Clique para ver seu codigo de acesso.
         </Text>
+        <Text style={styles.description}>{secret}</Text>
       </View>
       <ChevronRight style={styles.icon} color={Colors.MAIN} strokeWidth={1} />
     </Pressable>

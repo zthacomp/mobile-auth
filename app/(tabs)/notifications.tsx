@@ -35,10 +35,8 @@ const Notifications = () => {
   };
 
   useEffect(() => {
-    if (userInfo && token) {
-      getNotifications();
-    }
-  }, [userInfo, token]);
+    getNotifications();
+  }, [data]);
 
   return (
     <View style={styles.container}>
