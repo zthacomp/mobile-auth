@@ -41,18 +41,13 @@ const services = () => {
   };
 
   const disconnectService = async (serviceId: string) => {
-    if (!userInfo || !userInfo.id) {
-      setErrorMessage("Usuário não encontrado!");
+    if (!userInfo?.id || !token) {
+      setErrorMessage("Usuário ou token inválido");
       return;
     }
 
     if (!serviceId) {
       setErrorMessage("Id do serviço é necessário");
-      return;
-    }
-
-    if (!token) {
-      setErrorMessage("Token é necessário");
       return;
     }
 
@@ -69,7 +64,7 @@ const services = () => {
 
   useEffect(() => {
     getServices();
-  }, [data]);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -78,7 +73,7 @@ const services = () => {
         {data.length > 0 ? (
           data.map((service: servicesData, index) => (
             <LinkedServices
-              key={index}
+              key={service.id}
               id={service.id}
               title={service.title}
               image={require("../../assets/images/Logo.png")}

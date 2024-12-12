@@ -21,15 +21,11 @@ const Notifications = () => {
   const [data, setData] = useState<notificationsData[]>([]);
 
   const getNotifications = async () => {
-    if (!userInfo || !userInfo.id) {
-      setErrorMessage("Usuário não encontrado!");
+    if (!userInfo?.id || !token) {
+      setErrorMessage("Usuário ou token inválido");
       return;
     }
 
-    if (!token) {
-      setErrorMessage("Token é necessário");
-      return;
-    }
     try {
       const response = await getUserNotifications(userInfo?.id, token);
       setData(response.data);
@@ -39,8 +35,10 @@ const Notifications = () => {
   };
 
   useEffect(() => {
-    getNotifications();
-  }, [data]);
+    if (userInfo && token) {
+      getNotifications();
+    }
+  }, [userInfo, token]);
 
   return (
     <View style={styles.container}>

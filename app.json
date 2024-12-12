@@ -1,13 +1,18 @@
 {
   "expo": {
-    "name": "Ztha Authenticator",
-    "slug": "MobileAuth",
-    "version": "1.0.0",
+    "name": "ZAuth",
+    "slug": "Ztha-Authenticator",
+    "version": "1.0.2",
     "orientation": "portrait",
     "newArchEnabled": true,
     "icon": "./assets/images/Logo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
+    },
     "splash": {
       "image": "./assets/images/Logo.png",
       "resizeMode": "contain",
@@ -18,6 +23,9 @@
       "bundleIdentifier": "com.ztha.MobileAuth"
     },
     "android": {
+      "networkSecurityConfig": {
+        "usesCleartextTraffic": true
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/Logo.png",
         "backgroundColor": "#09090B"
@@ -72,6 +80,11 @@
     },
     "runtimeVersion": {
       "policy": "appVersion"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f860103b-10dc-48d4-a888-e2a828d2e77b"
+      }
     }
   }
 }
