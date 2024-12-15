@@ -2,7 +2,7 @@
   "expo": {
     "name": "ZAuth",
     "slug": "Ztha-Authenticator",
-    "version": "1.0.2",
+    "version": "1.0.7",
     "orientation": "portrait",
     "newArchEnabled": true,
     "icon": "./assets/images/Logo.png",

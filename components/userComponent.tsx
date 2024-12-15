@@ -1,6 +1,6 @@
 import { UserContext, UserContextType } from "@/app/context";
 import { Colors } from "@/constants/Colors";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 export const UserComponent = () => {

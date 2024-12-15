@@ -4,25 +4,22 @@ import { Colors } from "@/constants/Colors";
 import { SettingsComponent } from "@/components/settingsComponent";
 import { useCameraPermissions, PermissionStatus } from "expo-camera";
 import { UserContext, UserContextType } from "../context";
+import { SettingsModal } from "@/components/settingsModal";
 
 const settings = () => {
   const { setCameraPermission } = useContext(UserContext) as UserContextType;
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
   const [cameraAccessGranted, setCameraAccessGranted] = useState<boolean>(true);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const handleCameraPermission = async () => {
     if (cameraPermission?.status === PermissionStatus.GRANTED) {
-      Alert.alert(
-        "Permissão já concedida",
-        "Para revogar o acesso, altere as permissões nas configurações do sistema.",
-      );
+      setModalVisible(true);
     } else {
       const { granted } = await requestCameraPermission();
       setCameraAccessGranted(granted);
     }
   };
-
-  const notifications = () => {};
 
   useEffect(() => {
     setCameraAccessGranted(
@@ -70,6 +67,13 @@ const settings = () => {
           />
         </View> */}
       </ScrollView>
+
+      <SettingsModal
+        text="Permissão já concedida"
+        description="Para revogar o acesso, altere as permissões nas configurações do sistema."
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      />
     </View>
   );
 };

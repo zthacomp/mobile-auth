@@ -75,7 +75,6 @@ export const NotificationComponent: React.FC<NotificationProps> = ({
             <Trash2 color={Colors.ZINC400} strokeWidth={1} size={22} />
           </TouchableOpacity>
         </View>
-
         <Text style={styles.description}>{description}</Text>
         <Text style={styles.description}>{calculateTimeAgo(time)}</Text>
       </View>
