@@ -1,14 +1,16 @@
 import { Colors } from "@/constants/Colors";
-import { useRouter } from "expo-router";
-import { ChevronRight } from "lucide-react-native";
+import { useEffect, useState } from "react";
 import {
-  Pressable,
   Text,
   StyleSheet,
   Image,
   View,
   ImageSourcePropType,
+  Pressable,
 } from "react-native";
+import { TOTP } from "totp-generator";
+import * as Clipboard from "expo-clipboard";
+import { Copy } from "lucide-react-native";
 
 interface servicesProps {
   title: string;
@@ -21,26 +23,46 @@ export const ServicesCode: React.FC<servicesProps> = ({
   image,
   secret,
 }) => {
-  const router = useRouter();
+  const [token, setToken] = useState("");
 
-  const handlePress = () => {
-    router.push({
-      pathname: "./authentication",
-      params: { secret },
-    });
+  const updateCode = () => {
+    if (secret) {
+      const { otp } = TOTP.generate(secret, { period: 30 });
+      setToken(otp);
+    }
   };
 
+  const copyToClipboard = async () => {
+    if (token) {
+      await Clipboard.setStringAsync(token);
+    }
+  };
+
+  useEffect(() => {
+    updateCode();
+
+    const interval = setInterval(() => {
+      updateCode();
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, [secret]);
+
   return (
-    <Pressable style={styles.container} onPress={handlePress}>
+    <View style={styles.container}>
       <Image style={styles.img} source={image} />
       <View style={styles.textInfo}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.description}>
-          Clique para ver seu codigo de acesso.
-        </Text>
+        {token ? (
+          <Text style={styles.code}>{token}</Text>
+        ) : (
+          <Text style={styles.description}>Escaneei o QR Code do serviço.</Text>
+        )}
       </View>
-      <ChevronRight style={styles.icon} color={Colors.MAIN} strokeWidth={1} />
-    </Pressable>
+      {/* <Pressable onPress={copyToClipboard}>
+        <Copy color={Colors.MAIN} size={25} strokeWidth={1} />
+      </Pressable> */}
+    </View>
   );
 };
 
@@ -68,12 +90,18 @@ const styles = StyleSheet.create({
     color: Colors.ZINC200,
     fontFamily: "Inter_400Regular",
   },
+  icon: {
+    marginVertical: "5%",
+  },
+  code: {
+    fontSize: 20,
+    color: Colors.MAIN,
+    fontFamily: "Inter_400Regular",
+  },
   description: {
     color: Colors.ZINC400,
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
-  },
-  icon: {
-    marginVertical: "5%",
+    fontSize: 13,
+    width: "100%",
   },
 });

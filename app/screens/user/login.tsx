@@ -130,6 +130,8 @@ const Login = () => {
     });
 
     if (success) {
+      setIsLoading(true);
+
       // Obtém o CPF e a senha salvos e faz login automático
       const savedPassword = await SecureStore.getItemAsync("userPassword");
       const savedCpf = await SecureStore.getItemAsync("userCpf");
@@ -151,8 +153,10 @@ const Login = () => {
         );
 
         if (isDeviceRegistered) {
+          setIsLoading(false);
           router.push("/(tabs)/home");
         } else {
+          setIsLoading(false);
           router.push("/screens/devices");
         }
       }

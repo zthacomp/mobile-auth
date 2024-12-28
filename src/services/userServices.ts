@@ -2,9 +2,11 @@ import axios from "axios";
 import dayjs from "dayjs";
 
 export const api = axios.create({
-  baseURL: "http://172.16.251.130:3333",
+  baseURL: "https://api-auth-xbja.onrender.com",
   withCredentials: true,
 });
+
+// http://172.16.251.130:3333
 
 interface signinData {
   cpf: string;
